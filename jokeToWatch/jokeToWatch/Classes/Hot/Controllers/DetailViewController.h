@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HotModel.h"
 @interface DetailViewController : UIViewController
+
+@property(nonatomic, strong) HotModel *model;
 
 @end

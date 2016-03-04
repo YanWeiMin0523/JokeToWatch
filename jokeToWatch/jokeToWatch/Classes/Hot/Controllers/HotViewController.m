@@ -21,7 +21,6 @@
 @property(nonatomic, assign) BOOL cenRefresh;
 @property(nonatomic, strong) NSMutableArray *allItemsArray;
 
-
 @end
 
 @implementation HotViewController
@@ -31,35 +30,68 @@
     // Do any additional setup after loading the view.
     _pageCount = 1;
     [self.view addSubview:self.tableVIew];
-    //注册cell
-    [self.tableVIew registerNib:[UINib nibWithNibName:@"HotTableViewCell" bundle:nil] forCellReuseIdentifier:@"HotCell"];
     //网络请求
     [self hotTitleToRequest];
     [self.tableVIew launchRefreshing];
+    
+    
 }
 
 #pragma mark -------------- UITableViewDataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    HotTableViewCell *hotCell = [tableView dequeueReusableCellWithIdentifier:@"HotCell" forIndexPath:indexPath];
+    static NSString *hotIden = @"hotCell";
+    HotTableViewCell *hotCell = [tableView dequeueReusableCellWithIdentifier:hotIden];
+    if (!hotCell) {
+        hotCell = [[HotTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:hotIden];
+    }
+    
     HotModel *model = self.allItemsArray[indexPath.row];
     hotCell.hotModel = model;
     hotCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return hotCell;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    YWMLog(@"%lu", self.allItemsArray.count);
     return self.allItemsArray.count;
 }
 
 #pragma mark ---------- UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    
+    UIStoryboard *detailStory = [UIStoryboard storyboardWithName:@"Hot" bundle:nil];
+    DetailViewController *detailVC = [detailStory instantiateViewControllerWithIdentifier:@"detailID"];
+    detailVC.model = self.allItemsArray[indexPath.row];
+    [self.navigationController pushViewController:detailVC animated:YES];
     
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+//返回每一行的高度
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    HotModel *model = self.allItemsArray[indexPath.row];
+    CGFloat cellHegiht = [HotTableViewCell getCellHeightWith:model];
+
+    return cellHegiht;
+}
+
+#pragma mark ----------- PullingRefreshTableViewDelegate
+- (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView{
+    _pageCount += 1;
+    [self performSelector:@selector(hotTitleToRequest) withObject:nil afterDelay:1.0];
+}
+
+- (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView{
+    _pageCount = 1;
+    self.cenRefresh = YES;
+    [self performSelector:@selector(hotTitleToRequest) withObject:nil afterDelay:1.0];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [self.tableVIew tableViewDidScroll:scrollView];
+}
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    [self.tableVIew tableViewDidEndDragging:scrollView];
+}
+
+- (NSDate *)pullingTableViewLoadingFinishedDate{
+    return [TimeTools getNowDate];
 }
 
 #pragma mark ------------ CustomMethod
@@ -75,9 +107,13 @@
         NSInteger count = [successDic[@"count"] integerValue];
         NSInteger error = [successDic[@"err"] integerValue];
         if (count == 30 && error == 0) {
-            NSMutableArray *itemsArray = successDic[@"items"];
+            NSArray *itemsArray = successDic[@"items"];
+            if (self.allItemsArray.count > 0) {
+                [self.allItemsArray removeAllObjects];
+            }
             for (NSDictionary *dict in itemsArray) {
-                [self.allItemsArray setValuesForKeysWithDictionary:dict];
+                HotModel *model = [[HotModel alloc] initWithJokeDictionary:dict];
+                [self.allItemsArray addObject:model];
             }
             
         }
@@ -91,13 +127,13 @@
     
 }
 
+
 #pragma mark ---------- LazyLodaing
 - (PullingRefreshTableView *)tableVIew{
     if (!_tableVIew) {
-        self.tableVIew = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 0, kWidth, kHeight - 60) style:UITableViewStylePlain];
+        self.tableVIew = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 64, kWidth, kHeight - 44) style:UITableViewStylePlain];
         self.tableVIew.delegate = self;
         self.tableVIew.dataSource = self;
-        self.tableVIew.rowHeight = 100;
     }
     return _tableVIew;
 }

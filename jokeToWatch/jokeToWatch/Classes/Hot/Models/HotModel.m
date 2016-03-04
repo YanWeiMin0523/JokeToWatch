@@ -13,18 +13,22 @@
 - (instancetype)initWithJokeDictionary:(NSDictionary *)dic{
     self = [super init];
     if (self) {
-        [self setValuesForKeysWithDictionary:dic];
+        NSDictionary *userDic = dic[@"user"];
+        if (![userDic isEqual:[NSNull null]]) {
+            self.headImage = userDic[@"image"];
+        self.title = userDic[@"login"];
+        }
+        
+        self.apprise = dic[@"allow_comment"];
+        self.time = dic[@"share_count"];
+        self.plain = dic[@"content"];
+        self.jokeID = dic[@"id"];
+        
+        NSDictionary *voteDic = dic[@"votes"];
+        self.votesN = voteDic[@"down"];
+        self.votesY = voteDic[@"up"];
     }
     return self;
 }
-
-- (void)setValue:(id)value forUndefinedKey:(NSString *)key{
-    
-    YWMLog(@"key: %@", key);
-    
-    
-}
-
-
 
 @end

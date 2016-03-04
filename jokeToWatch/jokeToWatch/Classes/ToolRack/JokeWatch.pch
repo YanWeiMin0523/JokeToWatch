@@ -22,8 +22,8 @@
 #endif
 
 #import "JokeDefine.h"
-
-
+#import <UIKit/UIKit.h>
+#import "TimeTools.h"
 
 
 #endif /* JokeWatch_pch */

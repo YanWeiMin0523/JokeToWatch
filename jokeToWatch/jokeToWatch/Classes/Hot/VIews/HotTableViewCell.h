@@ -12,4 +12,8 @@
 
 @property(nonatomic, strong) HotModel *hotModel;
 
+
+//获取整个cell的高度
++ (CGFloat)getCellHeightWith:(HotModel *)model;
+
 @end
