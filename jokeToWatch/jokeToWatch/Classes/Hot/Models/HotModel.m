@@ -15,8 +15,12 @@
     if (self) {
         NSDictionary *userDic = dic[@"user"];
         if (![userDic isEqual:[NSNull null]]) {
-            self.headImage = userDic[@"image"];
         self.title = userDic[@"login"];
+        }
+        NSString *imageStr = dic[@"image"];
+        if ([imageStr isEqual:nil]) {
+            NSString *newImageStr = [NSString stringWithFormat:@"http://img.qiushibaike.com/system/pictures/%@/small/%@", self.jokeID, imageStr];
+            self.headImage = newImageStr;
         }
         
         self.apprise = dic[@"allow_comment"];

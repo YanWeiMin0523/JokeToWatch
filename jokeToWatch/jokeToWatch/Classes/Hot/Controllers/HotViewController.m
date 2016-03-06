@@ -34,7 +34,6 @@
     [self hotTitleToRequest];
     [self.tableVIew launchRefreshing];
     
-    
 }
 
 #pragma mark -------------- UITableViewDataSource
@@ -74,12 +73,13 @@
 #pragma mark ----------- PullingRefreshTableViewDelegate
 - (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView{
     _pageCount += 1;
+    self.cenRefresh = YES;
     [self performSelector:@selector(hotTitleToRequest) withObject:nil afterDelay:1.0];
 }
 
 - (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView{
     _pageCount = 1;
-    self.cenRefresh = YES;
+    self.cenRefresh = NO;
     [self performSelector:@selector(hotTitleToRequest) withObject:nil afterDelay:1.0];
 }
 
@@ -127,11 +127,15 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [ProgressHUD dismiss];
+}
 
 #pragma mark ---------- LazyLodaing
 - (PullingRefreshTableView *)tableVIew{
     if (!_tableVIew) {
-        self.tableVIew = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 64, kWidth, kHeight - 44) style:UITableViewStylePlain];
+        self.tableVIew = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(15, 44, kWidth, kHeight - 120) pullingDelegate:self];
         self.tableVIew.delegate = self;
         self.tableVIew.dataSource = self;
     }

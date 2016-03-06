@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A026F7F1C8A7D3F00AA072A /* ClassisTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A026F7E1C8A7D3F00AA072A /* ClassisTableViewCell.m */; };
+		7A026F821C8A7D9F00AA072A /* ClassisModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A026F811C8A7D9F00AA072A /* ClassisModel.m */; };
+		7A026F941C8AD63E00AA072A /* UIViewController+BackPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A026F931C8AD63E00AA072A /* UIViewController+BackPage.m */; };
+		7A2CA3481C89BC420010A9A7 /* UIView+UIViewExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A2CA3461C89BC420010A9A7 /* UIView+UIViewExtension.m */; };
 		7A59BBD21C87E123009CAD5B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A59BBD11C87E123009CAD5B /* main.m */; };
 		7A59BBDB1C87E123009CAD5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A59BBD91C87E123009CAD5B /* Main.storyboard */; };
 		7A59BBDD1C87E123009CAD5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A59BBDC1C87E123009CAD5B /* Assets.xcassets */; };
@@ -35,6 +39,14 @@
 
 /* Begin PBXFileReference section */
 		19D4B2BE8F32860F24220CB3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A026F7D1C8A7D3F00AA072A /* ClassisTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassisTableViewCell.h; sourceTree = "<group>"; };
+		7A026F7E1C8A7D3F00AA072A /* ClassisTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassisTableViewCell.m; sourceTree = "<group>"; };
+		7A026F801C8A7D9F00AA072A /* ClassisModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassisModel.h; sourceTree = "<group>"; };
+		7A026F811C8A7D9F00AA072A /* ClassisModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassisModel.m; sourceTree = "<group>"; };
+		7A026F921C8AD63E00AA072A /* UIViewController+BackPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BackPage.h"; sourceTree = "<group>"; };
+		7A026F931C8AD63E00AA072A /* UIViewController+BackPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BackPage.m"; sourceTree = "<group>"; };
+		7A2CA3461C89BC420010A9A7 /* UIView+UIViewExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+UIViewExtension.m"; sourceTree = "<group>"; };
+		7A2CA3471C89BC420010A9A7 /* UIView+UIViewExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UIViewExtension.h"; sourceTree = "<group>"; };
 		7A59BBCD1C87E123009CAD5B /* jokeToWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jokeToWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A59BBD11C87E123009CAD5B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7A59BBDA1C87E123009CAD5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -183,6 +195,8 @@
 		7A59BC021C880789009CAD5B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7A026F801C8A7D9F00AA072A /* ClassisModel.h */,
+				7A026F811C8A7D9F00AA072A /* ClassisModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -191,6 +205,8 @@
 			isa = PBXGroup;
 			children = (
 				7A59BC281C8827BE009CAD5B /* Classis.storyboard */,
+				7A026F7D1C8A7D3F00AA072A /* ClassisTableViewCell.h */,
+				7A026F7E1C8A7D3F00AA072A /* ClassisTableViewCell.m */,
 			);
 			path = VIews;
 			sourceTree = "<group>";
@@ -310,6 +326,10 @@
 				7A59BC571C8874FF009CAD5B /* TimeTools.h */,
 				7A59BC581C8874FF009CAD5B /* TimeTools.m */,
 				7A59BC4E1C8840AE009CAD5B /* JokeDefine.h */,
+				7A2CA3461C89BC420010A9A7 /* UIView+UIViewExtension.m */,
+				7A2CA3471C89BC420010A9A7 /* UIView+UIViewExtension.h */,
+				7A026F921C8AD63E00AA072A /* UIViewController+BackPage.h */,
+				7A026F931C8AD63E00AA072A /* UIViewController+BackPage.m */,
 				7A59BC481C884071009CAD5B /* ProgressHUD */,
 				7A59BC3F1C883E23009CAD5B /* PullingRefreshTableView */,
 			);
@@ -482,11 +502,15 @@
 				7A59BC1A1C880789009CAD5B /* AppDelegate.m in Sources */,
 				7A59BC201C880789009CAD5B /* NewestViewController.m in Sources */,
 				7A59BC1D1C880789009CAD5B /* HotViewController.m in Sources */,
+				7A026F7F1C8A7D3F00AA072A /* ClassisTableViewCell.m in Sources */,
 				7A59BBD21C87E123009CAD5B /* main.m in Sources */,
 				7A59BC1C1C880789009CAD5B /* ClassicsViewController.m in Sources */,
+				7A2CA3481C89BC420010A9A7 /* UIView+UIViewExtension.m in Sources */,
 				7A59BC471C883E23009CAD5B /* PullingRefreshTableView.m in Sources */,
+				7A026F821C8A7D9F00AA072A /* ClassisModel.m in Sources */,
 				7A59BC1E1C880789009CAD5B /* HotTableViewCell.m in Sources */,
 				7A59BC561C8867C1009CAD5B /* DetailViewController.m in Sources */,
+				7A026F941C8AD63E00AA072A /* UIViewController+BackPage.m in Sources */,
 				7A59BC591C8874FF009CAD5B /* TimeTools.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

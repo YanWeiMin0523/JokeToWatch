@@ -8,7 +8,7 @@
         <!--经典桥段-->
         <scene sceneID="esH-qh-7fV">
             <objects>
-                <viewController id="MPM-R1-7Pl" sceneMemberID="viewController">
+                <viewController id="MPM-R1-7Pl" customClass="ClassicsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jod-9b-uHM"/>
                         <viewControllerLayoutGuide type="bottom" id="5AA-tA-k4n"/>

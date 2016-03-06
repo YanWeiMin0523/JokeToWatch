@@ -9,6 +9,9 @@
 #import "HotTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 @interface HotTableViewCell ()
+{
+    CGFloat _lastLabelBottom;//自定义后label的高度
+}
 @property (strong, nonatomic)  UIImageView *headImage;
 @property (strong, nonatomic)  UILabel *titleLable;
 @property (strong, nonatomic)  UILabel *timeLabel;
@@ -42,16 +45,14 @@
     self.plainLabel.font = [UIFont systemFontOfSize:17];
     [self.contentView addSubview:self.plainLabel];
     
-    self.votesNBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.votesNBtn.frame = CGRectMake(10, kWidth * 3 / 8 + 15, 60, 30);
-    [self.votesNBtn setImage:[UIImage imageNamed:@"votes_y"] forState:UIControlStateNormal];
-    self.votesYBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.votesYBtn.frame = CGRectMake(kWidth / 4 + 30, kWidth * 3 / 8 + 15, 60, 30);
-    [self.votesYBtn setImage:[UIImage imageNamed:@"votes_n"] forState:UIControlStateNormal];
-    self.appraiseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.appraiseBtn.frame = CGRectMake(kWidth * 5 / 8 + 10, kWidth * 3 / 8 + 15, 60, 30);
-    [self.appraiseBtn setTitle:@"123" forState:UIControlStateNormal];
-    [self.appraiseBtn setImage:[UIImage imageNamed:@"com"] forState:UIControlStateNormal];
+    self.votesNBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.votesNBtn setImage:[UIImage imageNamed:@"btn_praise"] forState:UIControlStateNormal];
+    self.votesYBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.votesYBtn setImage:[UIImage imageNamed:@"btn_down"] forState:UIControlStateNormal];
+    
+    self.appraiseBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.appraiseBtn setImage:[UIImage imageNamed:@"btn_keep"] forState:UIControlStateNormal];
+    [[UIButton appearance] setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.contentView addSubview:self.votesYBtn];
     [self.contentView addSubview:self.votesNBtn];
     [self.contentView addSubview:self.appraiseBtn];
@@ -63,21 +64,40 @@
 }
 - (void)setHotModel:(HotModel *)hotModel{
 //    [self.headImage sd_setImageWithURL:[NSURL URLWithString:hotModel.headImage] placeholderImage:nil];
-    self.headImage.image = [UIImage imageNamed:@"01"];
-    self.headImage.layer.cornerRadius = 20;
+    self.headImage.image = [UIImage imageNamed:@"defaultHeadImage"];
+    self.headImage.layer.cornerRadius = 10;
     self.headImage.clipsToBounds = YES;
     self.timeLabel.text = [NSString stringWithFormat:@"%@", hotModel.time];
     self.titleLable.text = hotModel.title;
     self.plainLabel.text = hotModel.plain;
+    //自定义高度后重新给定frame
+    CGFloat height = [[self class] getTextHeightWithText:hotModel.plain];
+    CGRect frame = self.plainLabel.frame;
+    frame.size.height = height;
+    self.plainLabel.frame = frame;
+    _lastLabelBottom = frame.size.height + kWidth / 8 + 20;
+    self.votesYBtn.frame = CGRectMake(10, _lastLabelBottom, 100, 30);
+    self.appraiseBtn.frame = CGRectMake(kWidth * 3 / 8 + 120, _lastLabelBottom, 100, 30);
+    self.votesNBtn.frame = CGRectMake(kWidth / 4 + 50, _lastLabelBottom, 100, 30);
+
     [self.votesNBtn setTitle:[NSString stringWithFormat:@"%@", hotModel.votesN] forState:UIControlStateNormal];
     [self.votesYBtn setTitle:[NSString stringWithFormat:@"%@", hotModel.votesY] forState:UIControlStateNormal];
     [self.appraiseBtn setTitle:[NSString stringWithFormat:@"%@", hotModel.apprise] forState:UIControlStateNormal];
     
 }
 
+//返回整个cell的高度
 + (CGFloat)getCellHeightWith:(HotModel *)model{
-    CGFloat textHeight = [TimeTools getTextHeight:model.plain bigestSize:CGSizeMake(kWidth -20, 1000) Font:18.0];
-    return textHeight + kWidth / 8 + 60;
+    CGFloat textHeight = [[self class] getTextHeightWithText:model.plain];
+    
+    return textHeight + kWidth / 8 + 50;
+}
+
+//计算文本高度
++ (CGFloat)getTextHeightWithText:(NSString *)text{
+    CGRect textRect = [text boundingRectWithSize:CGSizeMake(kWidth - 30, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15.0]} context:nil];
+    return textRect.size.height;
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
