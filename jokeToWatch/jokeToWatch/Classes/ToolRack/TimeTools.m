@@ -29,6 +29,11 @@
     return date;
 }
 
-
+//计算文本高度
++ (CGFloat)getTextHeightWithText:(NSString *)text{
+    CGRect textRect = [text boundingRectWithSize:CGSizeMake(kWidth - 30, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:17.0]} context:nil];
+    return textRect.size.height;
+    
+}
 
 @end

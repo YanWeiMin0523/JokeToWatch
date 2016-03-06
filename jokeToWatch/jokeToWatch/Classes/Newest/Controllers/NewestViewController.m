@@ -7,8 +7,19 @@
 //
 
 #import "NewestViewController.h"
-
-@interface NewestViewController ()
+#import <AFHTTPSessionManager.h>
+#import "HotTableViewCell.h"
+#import "HotModel.h"
+#import "ProgressHUD.h"
+#import "PullingRefreshTableView.h"
+#import "DetaiViewController.h"
+@interface NewestViewController ()<UITableViewDataSource, UITableViewDelegate, PullingRefreshTableViewDelegate>
+{
+    NSInteger _pageCount;
+}
+@property(nonatomic, strong) PullingRefreshTableView *tableView;
+@property(nonatomic, assign) BOOL refreshing;
+@property(nonatomic, strong) NSMutableArray *allTitleArray;
 
 @end
 
@@ -17,6 +28,130 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _pageCount = 1;
+    [self.view addSubview:self.tableView];
+    [self.tableView launchRefreshing];
+    [self newestReqestModel];
+    
+    
+}
+
+- (void)newestReqestModel{
+    AFHTTPSessionManager *httpManager = [AFHTTPSessionManager manager];
+    httpManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+    [ProgressHUD show:@"正在加载"];
+    [httpManager GET:[NSString stringWithFormat:@"%@&page=%ld", kNewestPort, _pageCount] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [ProgressHUD showSuccess:@"加载成功"];
+        NSDictionary *itemDic = responseObject;
+        NSInteger count = [itemDic[@"count"] integerValue];
+        NSInteger err = [itemDic[@"err"] integerValue];
+        if (count > 0 && err == 0) {
+            NSArray *itemArray = itemDic[@"items"];
+            if (self.refreshing) {
+                if (self.allTitleArray.count > 0) {
+                    [self.allTitleArray removeAllObjects];
+                }
+            }
+            for (NSDictionary *dict in itemArray) {
+                HotModel *model = [[HotModel alloc] initWithJokeDictionary:dict];
+                [self.allTitleArray addObject:model];
+            }
+            
+        }else{
+            
+        }
+        [self.tableView tableViewDidFinishedLoading];
+        [self.tableView reloadData];
+        self.tableView.reachedTheEnd = NO;
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [ProgressHUD showError:@"加载失败"];
+        YWMLog(@"%@", error);
+    }];
+    
+    
+}
+
+#pragma mark --------------- UITableVIewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    DetaiViewController *detailVC = [[DetaiViewController alloc] init];
+    HotModel *model = self.allTitleArray[indexPath.row];
+    detailVC.detailID = model.jokeID;
+    [self.navigationController pushViewController:detailVC animated:YES];
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    HotModel *newModel = self.allTitleArray[indexPath.row];
+    CGFloat cellHeight = [HotTableViewCell getCellHeightWith:newModel];
+    return cellHeight + 5;
+}
+
+#pragma mark ----------------- UITableViewDataSource
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *newCell = @"cell";
+    HotTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:newCell];
+    if (!cell) {
+        cell = [[HotTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:newCell];
+        
+    }
+    HotModel *model = self.allTitleArray[indexPath.row];
+    cell.hotModel = model;
+    self.tableView.separatorColor = [UIColor clearColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.allTitleArray.count;
+}
+
+#pragma mark ----------- PullingTableViewDelegate
+- (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView{
+    _pageCount += 1;
+    self.refreshing = YES;
+    [self performSelector:@selector(newestReqestModel) withObject:nil afterDelay:1.0];
+}
+
+- (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView{
+    _pageCount = 1;
+    self.refreshing = NO;
+    [self performSelector:@selector(newestReqestModel) withObject:nil afterDelay:1.0];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [self.tableView tableViewDidScroll:scrollView];
+}
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    [self.tableView tableViewDidEndDragging:scrollView];
+}
+
+- (NSDate *)pullingTableViewLoadingFinishedDate{
+    return [TimeTools getNowDate];
+}
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    self.tabBarController.tabBar.hidden = NO;
+}
+
+#pragma mark -------------- lazyLoading
+- (PullingRefreshTableView *)tableView{
+    if (!_tableView) {
+        self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 64, kWidth, kHeight - 124) pullingDelegate:self];
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
+        self.tableView.rowHeight = 150;
+        
+    }
+    return _tableView;
+}
+
+- (NSMutableArray *)allTitleArray{
+    if (!_allTitleArray) {
+        self.allTitleArray = [NSMutableArray new];
+    }
+    return _allTitleArray;
 }
 
 - (void)didReceiveMemoryWarning {

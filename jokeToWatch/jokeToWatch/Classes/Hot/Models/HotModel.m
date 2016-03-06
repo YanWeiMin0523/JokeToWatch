@@ -15,13 +15,14 @@
     if (self) {
         NSDictionary *userDic = dic[@"user"];
         if (![userDic isEqual:[NSNull null]]) {
-        self.title = userDic[@"login"];
+            self.title = userDic[@"login"];
+            self.imageID =[NSString stringWithFormat:@"%@",userDic[@"id"]] ;
+            self.icon = userDic[@"icon"];
         }
-        NSString *imageStr = dic[@"image"];
-        if ([imageStr isEqual:nil]) {
-            NSString *newImageStr = [NSString stringWithFormat:@"http://img.qiushibaike.com/system/pictures/%@/small/%@", self.jokeID, imageStr];
-            self.headImage = newImageStr;
-        }
+        
+        NSString *str = [self.imageID substringToIndex:4];
+        NSString *newImageStr = [NSString stringWithFormat:@"http://img.qiushibaike.com/system/avtnew/%@/%@/thumb/%@",str, _imageID, _icon];
+        self.headImage = newImageStr;
         
         self.apprise = dic[@"allow_comment"];
         self.time = dic[@"share_count"];

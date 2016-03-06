@@ -76,8 +76,10 @@
         [ProgressHUD showSuccess:@"加载成功"];
         NSDictionary *classisDic = responseObject;
         NSArray *successArray = classisDic[@"list"];
+        if (self.canRefresh) {
         if (self.allTextArray.count > 0) {
             [self.allTextArray removeAllObjects];
+        }
         }
         for (NSDictionary *dict in successArray) {
             ClassisModel *model = [[ClassisModel alloc] initWithClassisDictionary:dict];
@@ -122,7 +124,7 @@
 #pragma mark ------------- LazyLoading
 - (PullingRefreshTableView *)tableView{
     if (!_tableView) {
-        self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 0, kWidth, kHeight + 60) pullingDelegate:self];
+        self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 64, kWidth, kHeight - 124) pullingDelegate:self];
         self.tableView.delegate= self;
         self.tableView.dataSource = self;
         self.tableView.rowHeight = kWidth;

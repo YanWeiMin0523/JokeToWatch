@@ -36,7 +36,7 @@
 
     self.titleLabel.text = _model.title;
     //重新
-    CGFloat hegiht = [[self class] getTextHeightWithText:_model.plain];
+    CGFloat hegiht = [TimeTools getTextHeightWithText:_model.plain];
     CGRect labelFrame = self.plainLabel.frame;
     labelFrame.size.height = hegiht;
     self.plainLabel.frame = labelFrame;
@@ -54,15 +54,6 @@
     [super viewWillDisappear:YES];
     self.tabBarController.tabBar.hidden = NO;
 }
-
-
-//计算文本高度
-+ (CGFloat)getTextHeightWithText:(NSString *)text{
-    CGRect textRect = [text boundingRectWithSize:CGSizeMake(kWidth - 20, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:16.0]} context:nil];
-    return textRect.size.height;
-    
-}
-
 
 
 - (void)didReceiveMemoryWarning {

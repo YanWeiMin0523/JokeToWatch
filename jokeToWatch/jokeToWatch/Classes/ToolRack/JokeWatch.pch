@@ -26,5 +26,6 @@
 #import "TimeTools.h"
 #import "UIView+UIViewExtension.h"
 #import "UIViewController+BackPage.h"
+#import "UITableViewCell+AddControl.h"
 
 #endif /* JokeWatch_pch */

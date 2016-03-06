@@ -45,6 +45,7 @@
     }
     
     HotModel *model = self.allItemsArray[indexPath.row];
+    self.tableVIew.separatorColor = [UIColor clearColor];
     hotCell.hotModel = model;
     hotCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return hotCell;
@@ -67,7 +68,7 @@
     HotModel *model = self.allItemsArray[indexPath.row];
     CGFloat cellHegiht = [HotTableViewCell getCellHeightWith:model];
 
-    return cellHegiht;
+    return cellHegiht + 5;
 }
 
 #pragma mark ----------- PullingRefreshTableViewDelegate
@@ -106,20 +107,24 @@
         NSDictionary *successDic = responseObject;
         NSInteger count = [successDic[@"count"] integerValue];
         NSInteger error = [successDic[@"err"] integerValue];
-        if (count == 30 && error == 0) {
+        if (count > 0 && error == 0) {
             NSArray *itemsArray = successDic[@"items"];
+            if (self.cenRefresh) {
             if (self.allItemsArray.count > 0) {
                 [self.allItemsArray removeAllObjects];
+            }
             }
             for (NSDictionary *dict in itemsArray) {
                 HotModel *model = [[HotModel alloc] initWithJokeDictionary:dict];
                 [self.allItemsArray addObject:model];
             }
+        }else{
             
         }
         [self.tableVIew reloadData];
         [self.tableVIew tableViewDidFinishedLoading];
         self.tableVIew.reachedTheEnd = NO;
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [ProgressHUD showError:@"加载失败"];
         YWMLog(@"%@", error);
@@ -135,7 +140,7 @@
 #pragma mark ---------- LazyLodaing
 - (PullingRefreshTableView *)tableVIew{
     if (!_tableVIew) {
-        self.tableVIew = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(15, 44, kWidth, kHeight - 120) pullingDelegate:self];
+        self.tableVIew = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 64, kWidth, kHeight - 120) pullingDelegate:self];
         self.tableVIew.delegate = self;
         self.tableVIew.dataSource = self;
     }

@@ -20,6 +20,7 @@
 @property (strong, nonatomic)  UIButton *appraiseBtn;
 @property (strong, nonatomic)  UIButton *votesNBtn;
 @property (strong, nonatomic)  UIButton *votesYBtn;
+@property(strong, nonatomic) UILabel *lineLabel;
 @end
 
 @implementation ClassisTableViewCell
@@ -59,6 +60,11 @@
     [self.contentView addSubview:self.votesYBtn];
     [self.contentView addSubview:self.votesNBtn];
     [self.contentView addSubview:self.appraiseBtn];
+    
+    self.lineLabel = [[UILabel alloc] init];
+    self.lineLabel.backgroundColor = [UIColor grayColor];
+    self.lineLabel.alpha = 0.2;
+    [self.contentView addSubview:self.lineLabel];
 
 }
 
@@ -70,7 +76,7 @@
     self.timeLabel.text = [NSString stringWithFormat:@"%@", classModel.time];
     self.plainLabel.text = classModel.plain;
     //自定义高度之后重新设定frame
-    CGFloat textHeight = [[self class] getTextHeightWithText:classModel.plain];
+    CGFloat textHeight = [TimeTools getTextHeightWithText:classModel.plain];
     CGRect frame = self.plainLabel.frame;
     frame.size.height = textHeight;
     self.plainLabel.frame = frame;
@@ -92,25 +98,19 @@
     self.votesYBtn.frame = CGRectMake(10, _imageBottomHeight, 100, 30);
     self.votesNBtn.frame = CGRectMake(kWidth / 4 + 50, _imageBottomHeight, 100, 30);
     self.appraiseBtn.frame = CGRectMake(kWidth * 3 / 8 + 120, _imageBottomHeight, 100, 30);
-    
+    self.lineLabel.frame = CGRectMake(0, _imageBottomHeight + 30, kWidth, 10);
     
 
 }
 
 + (CGFloat)getTextHeightWith:(ClassisModel *)model{
-    CGFloat textHeight = [[self class] getTextHeightWithText:model.plain];
+    CGFloat textHeight = [TimeTools getTextHeightWithText:model.plain];
     if (model.shareImage != nil) {
         return textHeight + [model.imageHeight integerValue]/4 + kWidth / 8 + 60;
     }
-    return textHeight + kWidth / 8 + 60;
+    return textHeight + kWidth / 8 + 70;
 }
 
-//计算文本高度
-+ (CGFloat)getTextHeightWithText:(NSString *)text{
-    CGRect textRect = [text boundingRectWithSize:CGSizeMake(kWidth - 30, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:17.0]} context:nil];
-    return textRect.size.height;
-    
-}
 
 - (void)awakeFromNib {
     // Initialization code

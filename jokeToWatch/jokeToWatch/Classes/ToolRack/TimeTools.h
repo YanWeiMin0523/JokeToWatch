@@ -17,6 +17,6 @@
 + (NSDate *)getNowDate;
 
 #pragma mark ----------- 计算文本高度
-+ (CGFloat)getTextHeight:(NSString *)text bigestSize:(CGSize)bigSize Font:(CGFloat)font;
++ (CGFloat)getTextHeightWithText:(NSString *)text;
 
 @end

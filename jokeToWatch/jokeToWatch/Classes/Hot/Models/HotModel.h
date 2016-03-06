@@ -18,6 +18,8 @@
 @property(nonatomic, copy) NSString *votesN;
 @property(nonatomic, copy) NSString *apprise;
 @property(nonatomic, copy) NSString *jokeID;
+@property(nonatomic, copy) NSString *imageID;
+@property(nonatomic, copy) NSString *icon;
 
 - (instancetype)initWithJokeDictionary:(NSDictionary *)dic;
 
