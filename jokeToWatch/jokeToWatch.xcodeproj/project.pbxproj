@@ -11,8 +11,6 @@
 		7A026F821C8A7D9F00AA072A /* ClassisModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A026F811C8A7D9F00AA072A /* ClassisModel.m */; };
 		7A026F941C8AD63E00AA072A /* UIViewController+BackPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A026F931C8AD63E00AA072A /* UIViewController+BackPage.m */; };
 		7A12831A1C8C15DF00AE517C /* DetaiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1283191C8C15DF00AE517C /* DetaiViewController.m */; };
-		7A12831D1C8C189300AE517C /* DetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A12831C1C8C189300AE517C /* DetailView.m */; };
-		7A1283221C8C31B500AE517C /* UITableViewCell+AddControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1283211C8C31B500AE517C /* UITableViewCell+AddControl.m */; };
 		7A2CA3481C89BC420010A9A7 /* UIView+UIViewExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A2CA3461C89BC420010A9A7 /* UIView+UIViewExtension.m */; };
 		7A59BBD21C87E123009CAD5B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A59BBD11C87E123009CAD5B /* main.m */; };
 		7A59BBDB1C87E123009CAD5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A59BBD91C87E123009CAD5B /* Main.storyboard */; };
@@ -35,8 +33,12 @@
 		7A59BC4C1C884071009CAD5B /* ProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7A59BC491C884071009CAD5B /* ProgressHUD.bundle */; };
 		7A59BC4D1C884071009CAD5B /* ProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A59BC4B1C884071009CAD5B /* ProgressHUD.m */; };
 		7A59BC531C8852D9009CAD5B /* HotModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A59BC521C8852D9009CAD5B /* HotModel.m */; };
-		7A59BC561C8867C1009CAD5B /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A59BC551C8867C1009CAD5B /* DetailViewController.m */; };
 		7A59BC591C8874FF009CAD5B /* TimeTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A59BC581C8874FF009CAD5B /* TimeTools.m */; };
+		7AA77A651C8D15FE00436861 /* DetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AA77A641C8D15FE00436861 /* DetailTableViewCell.m */; };
+		7AA77A681C8D2D6000436861 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AA77A671C8D2D6000436861 /* CommentModel.m */; };
+		7AA77A6D1C8D7B5700436861 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AA77A6C1C8D7B5700436861 /* LoginViewController.m */; };
+		7AA77A6F1C8D81C200436861 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AA77A6E1C8D81C200436861 /* Login.storyboard */; };
+		7AA77A721C8D857F00436861 /* PassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AA77A711C8D857F00436861 /* PassWordViewController.m */; };
 		9DF385F5D2A300E329DEDC4D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19D4B2BE8F32860F24220CB3 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -50,10 +52,6 @@
 		7A026F931C8AD63E00AA072A /* UIViewController+BackPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BackPage.m"; sourceTree = "<group>"; };
 		7A1283181C8C15DF00AE517C /* DetaiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetaiViewController.h; sourceTree = "<group>"; };
 		7A1283191C8C15DF00AE517C /* DetaiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetaiViewController.m; sourceTree = "<group>"; };
-		7A12831B1C8C189300AE517C /* DetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailView.h; sourceTree = "<group>"; };
-		7A12831C1C8C189300AE517C /* DetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailView.m; sourceTree = "<group>"; };
-		7A1283201C8C31B400AE517C /* UITableViewCell+AddControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+AddControl.h"; sourceTree = "<group>"; };
-		7A1283211C8C31B500AE517C /* UITableViewCell+AddControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+AddControl.m"; sourceTree = "<group>"; };
 		7A2CA3461C89BC420010A9A7 /* UIView+UIViewExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+UIViewExtension.m"; sourceTree = "<group>"; };
 		7A2CA3471C89BC420010A9A7 /* UIView+UIViewExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UIViewExtension.h"; sourceTree = "<group>"; };
 		7A59BBCD1C87E123009CAD5B /* jokeToWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jokeToWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,10 +89,17 @@
 		7A59BC4E1C8840AE009CAD5B /* JokeDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JokeDefine.h; path = ProgressHUD/JokeDefine.h; sourceTree = "<group>"; };
 		7A59BC511C8852D9009CAD5B /* HotModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotModel.h; sourceTree = "<group>"; };
 		7A59BC521C8852D9009CAD5B /* HotModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotModel.m; sourceTree = "<group>"; };
-		7A59BC541C8867C1009CAD5B /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		7A59BC551C8867C1009CAD5B /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		7A59BC571C8874FF009CAD5B /* TimeTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeTools.h; sourceTree = "<group>"; };
 		7A59BC581C8874FF009CAD5B /* TimeTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeTools.m; sourceTree = "<group>"; };
+		7AA77A631C8D15FE00436861 /* DetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTableViewCell.h; sourceTree = "<group>"; };
+		7AA77A641C8D15FE00436861 /* DetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTableViewCell.m; sourceTree = "<group>"; };
+		7AA77A661C8D2D6000436861 /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
+		7AA77A671C8D2D6000436861 /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
+		7AA77A6B1C8D7B5700436861 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		7AA77A6C1C8D7B5700436861 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		7AA77A6E1C8D81C200436861 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		7AA77A701C8D857F00436861 /* PassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassWordViewController.h; sourceTree = "<group>"; };
+		7AA77A711C8D857F00436861 /* PassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassWordViewController.m; sourceTree = "<group>"; };
 		A211AF072EA5911633726245 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E3367C4D8DEE554CEE379203 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -235,8 +240,6 @@
 			children = (
 				7A59BC061C880789009CAD5B /* HotViewController.h */,
 				7A59BC071C880789009CAD5B /* HotViewController.m */,
-				7A59BC541C8867C1009CAD5B /* DetailViewController.h */,
-				7A59BC551C8867C1009CAD5B /* DetailViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -284,6 +287,8 @@
 		7A59BC111C880789009CAD5B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7AA77A661C8D2D6000436861 /* CommentModel.h */,
+				7AA77A671C8D2D6000436861 /* CommentModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -292,8 +297,8 @@
 			isa = PBXGroup;
 			children = (
 				7A59BC241C880916009CAD5B /* Newest.storyboard */,
-				7A12831B1C8C189300AE517C /* DetailView.h */,
-				7A12831C1C8C189300AE517C /* DetailView.m */,
+				7AA77A631C8D15FE00436861 /* DetailTableViewCell.h */,
+				7AA77A641C8D15FE00436861 /* DetailTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -313,6 +318,10 @@
 			children = (
 				7A59BC151C880789009CAD5B /* SetViewController.h */,
 				7A59BC161C880789009CAD5B /* SetViewController.m */,
+				7AA77A6B1C8D7B5700436861 /* LoginViewController.h */,
+				7AA77A6C1C8D7B5700436861 /* LoginViewController.m */,
+				7AA77A701C8D857F00436861 /* PassWordViewController.h */,
+				7AA77A711C8D857F00436861 /* PassWordViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -328,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				7A59BC261C88098B009CAD5B /* Set.storyboard */,
+				7AA77A6E1C8D81C200436861 /* Login.storyboard */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -343,8 +353,6 @@
 				7A2CA3471C89BC420010A9A7 /* UIView+UIViewExtension.h */,
 				7A026F921C8AD63E00AA072A /* UIViewController+BackPage.h */,
 				7A026F931C8AD63E00AA072A /* UIViewController+BackPage.m */,
-				7A1283201C8C31B400AE517C /* UITableViewCell+AddControl.h */,
-				7A1283211C8C31B500AE517C /* UITableViewCell+AddControl.m */,
 				7A59BC481C884071009CAD5B /* ProgressHUD */,
 				7A59BC3F1C883E23009CAD5B /* PullingRefreshTableView */,
 			);
@@ -452,6 +460,7 @@
 				7A59BBDB1C87E123009CAD5B /* Main.storyboard in Resources */,
 				7A59BC271C88098B009CAD5B /* Set.storyboard in Resources */,
 				7A59BC251C880916009CAD5B /* Newest.storyboard in Resources */,
+				7AA77A6F1C8D81C200436861 /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,12 +519,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AA77A721C8D857F00436861 /* PassWordViewController.m in Sources */,
 				7A59BC1B1C880789009CAD5B /* ViewController.m in Sources */,
+				7AA77A681C8D2D6000436861 /* CommentModel.m in Sources */,
 				7A59BC531C8852D9009CAD5B /* HotModel.m in Sources */,
 				7A12831A1C8C15DF00AE517C /* DetaiViewController.m in Sources */,
+				7AA77A6D1C8D7B5700436861 /* LoginViewController.m in Sources */,
 				7A59BC211C880789009CAD5B /* SetViewController.m in Sources */,
 				7A59BC4D1C884071009CAD5B /* ProgressHUD.m in Sources */,
-				7A1283221C8C31B500AE517C /* UITableViewCell+AddControl.m in Sources */,
 				7A59BC1A1C880789009CAD5B /* AppDelegate.m in Sources */,
 				7A59BC201C880789009CAD5B /* NewestViewController.m in Sources */,
 				7A59BC1D1C880789009CAD5B /* HotViewController.m in Sources */,
@@ -524,11 +535,10 @@
 				7A59BC1C1C880789009CAD5B /* ClassicsViewController.m in Sources */,
 				7A2CA3481C89BC420010A9A7 /* UIView+UIViewExtension.m in Sources */,
 				7A59BC471C883E23009CAD5B /* PullingRefreshTableView.m in Sources */,
+				7AA77A651C8D15FE00436861 /* DetailTableViewCell.m in Sources */,
 				7A026F821C8A7D9F00AA072A /* ClassisModel.m in Sources */,
 				7A59BC1E1C880789009CAD5B /* HotTableViewCell.m in Sources */,
-				7A59BC561C8867C1009CAD5B /* DetailViewController.m in Sources */,
 				7A026F941C8AD63E00AA072A /* UIViewController+BackPage.m in Sources */,
-				7A12831D1C8C189300AE517C /* DetailView.m in Sources */,
 				7A59BC591C8874FF009CAD5B /* TimeTools.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

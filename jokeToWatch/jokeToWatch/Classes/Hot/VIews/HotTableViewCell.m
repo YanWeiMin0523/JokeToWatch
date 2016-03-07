@@ -8,6 +8,7 @@
 
 #import "HotTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "DetaiViewController.h"
 @interface HotTableViewCell ()
 {
     CGFloat _lastLabelBottom;//自定义后label的高度
@@ -36,8 +37,71 @@
 - (void)awakeFromNib {
     // Initialization code
 }
+
+- (void)addControlToCell{
+    self.headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 3, kWidth / 8, kWidth / 8)];
+    [self.contentView addSubview:self.headImage];
+    self.titleLable = [[UILabel alloc] initWithFrame:CGRectMake(kWidth / 8 + 15, 15, kWidth * 3 / 4, kWidth / 4 / 4)];
+    [self.contentView addSubview:self.titleLable];
+    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kWidth * 7 / 8, 15, kWidth / 8, kWidth / 16)];
+    [self.contentView addSubview:self.timeLabel];
+    self.plainLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, kWidth / 8 + 10, kWidth - 20, kWidth / 4 )];
+    self.plainLabel.numberOfLines = 0;
+    self.plainLabel.font = [UIFont systemFontOfSize:17];
+    [self.contentView addSubview:self.plainLabel];
+    
+    self.votesNBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.votesNBtn setImage:[UIImage imageNamed:@"icon_for_bad"] forState:UIControlStateNormal];
+    [self.votesNBtn addTarget:self action:@selector(addToprise:) forControlEvents:UIControlEventTouchUpInside];
+    self.votesNBtn.layer.cornerRadius = 10.0;
+    self.votesNBtn.clipsToBounds = YES;
+    self.votesNBtn.layer.borderWidth = 1.0;
+    self.votesNBtn.tag = 11;
+    self.votesYBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.votesYBtn setImage:[UIImage imageNamed:@"icon_for_good"] forState:UIControlStateNormal];
+    [self.votesYBtn addTarget:self action:@selector(addToprise:) forControlEvents:UIControlEventTouchUpInside];
+    self.votesYBtn.tag = 10;
+    self.votesYBtn.layer.cornerRadius = 10.0;
+    self.votesYBtn.clipsToBounds = YES;
+    self.votesYBtn.layer.borderWidth = 1.0;
+    
+    self.appraiseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.appraiseBtn setImage:[UIImage imageNamed:@"icon_for_comment"] forState:UIControlStateNormal];
+    [self.appraiseBtn addTarget:self action:@selector(addToapprise:) forControlEvents:UIControlEventTouchUpInside];
+    self.appraiseBtn.layer.cornerRadius = 10.0;
+    self.appraiseBtn.clipsToBounds = YES;
+    self.appraiseBtn.layer.borderWidth = 1.0;
+    [[UIButton appearance] setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.contentView addSubview:self.votesYBtn];
+    [self.contentView addSubview:self.votesNBtn];
+    [self.contentView addSubview:self.appraiseBtn];
+    
+    self.lineLabel = [[UILabel alloc] init];
+    self.lineLabel.backgroundColor = [UIColor grayColor];
+    self.lineLabel.alpha = 0.2;
+    [self.contentView addSubview:self.lineLabel];
+    
+}
+//button按钮
+- (void)addToprise:(UIButton *)btn{
+    if (btn.tag == 10) {
+        //点赞
+        
+    }else{
+        //踩
+        
+    }
+    
+}
+//评论
+- (void)addToapprise:(UIButton *)btn{
+
+    
+}
+
+
 - (void)setHotModel:(HotModel *)hotModel{
-    if ([hotModel.headImage isEqual:nil]) {
+    if (hotModel.headImage == nil) {
         [self.headImage setImage:[UIImage imageNamed:@"defaultHeadImage"]];
     }
     [self.headImage sd_setImageWithURL:[NSURL URLWithString:hotModel.headImage] placeholderImage:nil];

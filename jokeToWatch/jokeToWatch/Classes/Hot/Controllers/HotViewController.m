@@ -12,7 +12,7 @@
 #import <AFNetworking/AFHTTPSessionManager.h>
 #import "ProgressHUD.h"
 #import "HotModel.h"
-#import "DetailViewController.h"
+#import "DetaiViewController.h"
 @interface HotViewController ()<PullingRefreshTableViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     NSInteger _pageCount;
@@ -56,9 +56,10 @@
 
 #pragma mark ---------- UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    UIStoryboard *detailStory = [UIStoryboard storyboardWithName:@"Hot" bundle:nil];
-    DetailViewController *detailVC = [detailStory instantiateViewControllerWithIdentifier:@"detailID"];
-    detailVC.model = self.allItemsArray[indexPath.row];
+    DetaiViewController *detailVC = [[DetaiViewController alloc] init];
+    HotModel *model = self.allItemsArray[indexPath.row];
+    detailVC.detailID = model.jokeID;
+    detailVC.detailModel = model;
     [self.navigationController pushViewController:detailVC animated:YES];
     
 }
@@ -74,13 +75,13 @@
 #pragma mark ----------- PullingRefreshTableViewDelegate
 - (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView{
     _pageCount += 1;
-    self.cenRefresh = YES;
+    self.cenRefresh = NO;
     [self performSelector:@selector(hotTitleToRequest) withObject:nil afterDelay:1.0];
 }
 
 - (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView{
     _pageCount = 1;
-    self.cenRefresh = NO;
+    self.cenRefresh = YES;
     [self performSelector:@selector(hotTitleToRequest) withObject:nil afterDelay:1.0];
 }
 
@@ -91,7 +92,7 @@
     [self.tableVIew tableViewDidEndDragging:scrollView];
 }
 
-- (NSDate *)pullingTableViewLoadingFinishedDate{
+- (NSDate *)pullingTableViewRefreshingFinishedDate{
     return [TimeTools getNowDate];
 }
 

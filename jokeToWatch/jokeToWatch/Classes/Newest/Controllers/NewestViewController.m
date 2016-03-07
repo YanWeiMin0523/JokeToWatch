@@ -78,6 +78,7 @@
     DetaiViewController *detailVC = [[DetaiViewController alloc] init];
     HotModel *model = self.allTitleArray[indexPath.row];
     detailVC.detailID = model.jokeID;
+    detailVC.detailModel = model;
     [self.navigationController pushViewController:detailVC animated:YES];
     
 }
@@ -110,13 +111,13 @@
 #pragma mark ----------- PullingTableViewDelegate
 - (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView{
     _pageCount += 1;
-    self.refreshing = YES;
+    self.refreshing = NO;
     [self performSelector:@selector(newestReqestModel) withObject:nil afterDelay:1.0];
 }
 
 - (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView{
     _pageCount = 1;
-    self.refreshing = NO;
+    self.refreshing = YES;
     [self performSelector:@selector(newestReqestModel) withObject:nil afterDelay:1.0];
 }
 
@@ -127,7 +128,7 @@
     [self.tableView tableViewDidEndDragging:scrollView];
 }
 
-- (NSDate *)pullingTableViewLoadingFinishedDate{
+- (NSDate *)pullingTableViewRefreshingFinishedDate{
     return [TimeTools getNowDate];
 }
 - (void)viewWillAppear:(BOOL)animated{
