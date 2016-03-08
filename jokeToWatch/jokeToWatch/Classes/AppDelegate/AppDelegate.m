@@ -11,6 +11,7 @@
 #import "ClassicsViewController.h"
 #import "SetViewController.h"
 #import "NewestViewController.h"
+#import <BmobSDK/Bmob.h>
 @interface AppDelegate ()
 
 @property(nonatomic, strong) UITabBarController *tabBarVC;
@@ -22,6 +23,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    //bmob
+    [Bmob registerWithAppKey:kBmobKey];
+    
     self.tabBarVC = [[UITabBarController alloc] init];
     //热门糗事
     UIStoryboard *hotStory = [UIStoryboard storyboardWithName:@"Hot" bundle:nil];

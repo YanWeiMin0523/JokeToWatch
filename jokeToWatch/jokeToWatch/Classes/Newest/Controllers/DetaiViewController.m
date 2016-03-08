@@ -12,6 +12,9 @@
 #import "CommentModel.h"
 #import "DetailTableViewCell.h"
 #import "PullingRefreshTableView.h"
+#import "ZMYNetManager.h"
+#import "Reachability.h"
+#import "ProgressHUD.h"
 @interface DetaiViewController ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, PullingRefreshTableViewDelegate>
 {
     NSInteger _pageCount;
@@ -35,13 +38,14 @@
     [self backToPreviousPageWithImage];
     self.view.backgroundColor = [UIColor whiteColor];
     self.tabBarController.tabBar.hidden = YES;
-    self.title = @"评论详情";
+    self.title = @"爆笑详情";
     [self.view addSubview:self.tableView];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(kWidth-44, kHeight-40, 60, 44);
-    [button setBackgroundImage:[UIImage imageNamed:@"button_login_active"] forState:UIControlStateNormal];
+    [button setTitle:@"评论" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(pulblishThink:) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     UIBarButtonItem *rightBar = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.rightBarButtonItem = rightBar;
 
@@ -66,8 +70,10 @@
         if (detailCell == nil) {
             detailCell = [[DetailTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cell];
         }
-        CommentModel *model = self.commentArray[indexPath.row];
-        detailCell.commentModel = model;
+        if (indexPath.row < self.commentArray.count) {
+            CommentModel *model = self.commentArray[indexPath.row];
+            detailCell.commentModel = model;
+        }
         self.tableView.separatorColor = [UIColor clearColor];
         detailCell.selectionStyle = UITableViewCellSelectionStyleNone;
         return detailCell;
@@ -121,9 +127,33 @@
     self.tabBarController.tabBar.hidden = NO;
 }
 
+#pragma mark ----------- TableView可增加
+//- (void)setEditing:(BOOL)editing animated:(BOOL)animated{
+//    [self.tableView setEditing:YES animated:YES];
+//}
+//
+//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return YES;
+//}
+//- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return UITableViewCellEditingStyleInsert;
+//}
+
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+//    NSMutableArray *group = self.commentArray[indexPath.row];
+//    [group insertObject:self.commentText.text atIndex:indexPath.row];
+//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    
+//}
+
+
 #pragma mark ------------- CustomMethod
 
 - (void)getRequest{
+    if (![ZMYNetManager shareZMYNetManager]) {
+        [ProgressHUD show:@"当前网络不可用"];
+        return;
+    }
     AFHTTPSessionManager *httpManager = [AFHTTPSessionManager manager];
     httpManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", nil];
     [httpManager GET:[NSString stringWithFormat:@"%@/%@/comments?count=50&page=%ld", kHotDetailPort1, self.detailID, (long)_pageCount] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
@@ -197,8 +227,7 @@
 }
 
 - (void)pulblishThink:(UIButton *)btn{
-    self.commentText = [[UITextField alloc] initWithFrame:CGRectMake(5, kHeight - 320, kWidth - 100, 50)];
-    self.commentText.backgroundColor = [UIColor orangeColor];
+    self.commentText = [[UITextField alloc] initWithFrame:CGRectMake(5, kHeight - 310, kWidth - 100, 50)];
     self.commentText.delegate = self;
     self.commentText.borderStyle = UITextBorderStyleRoundedRect;
     self.commentText.placeholder = @"这一刻你在想什么";
@@ -208,7 +237,7 @@
     [self.view addSubview:self.commentText];
     
     self.publishBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.publishBtn.frame =CGRectMake(kWidth - 90, kHeight - 320, 90, 60);
+    self.publishBtn.frame =CGRectMake(kWidth - 90, kHeight - 310, 90, 60);
     self.publishBtn.layer.cornerRadius = 10.0;
     self.publishBtn.clipsToBounds = YES;
     [self.publishBtn setBackgroundImage:[UIImage imageNamed:@"button_vote_activ"] forState:UIControlStateNormal];

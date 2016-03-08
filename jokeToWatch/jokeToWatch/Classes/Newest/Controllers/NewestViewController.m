@@ -13,14 +13,16 @@
 #import "ProgressHUD.h"
 #import "PullingRefreshTableView.h"
 #import "DetaiViewController.h"
-@interface NewestViewController ()<UITableViewDataSource, UITableViewDelegate, PullingRefreshTableViewDelegate>
+#import "ZMYNetManager.h"
+#import "Reachability.h"
+@interface NewestViewController ()<UITableViewDataSource, UITableViewDelegate, PullingRefreshTableViewDelegate, cellButtonTargetDelegate>
 {
     NSInteger _pageCount;
+    
 }
 @property(nonatomic, strong) PullingRefreshTableView *tableView;
 @property(nonatomic, assign) BOOL refreshing;
 @property(nonatomic, strong) NSMutableArray *allTitleArray;
-
 @end
 
 @implementation NewestViewController
@@ -37,6 +39,10 @@
 }
 
 - (void)newestReqestModel{
+    if (![ZMYNetManager shareZMYNetManager]) {
+        [ProgressHUD show:@"当前网络不可用"];
+        return;
+    }
     AFHTTPSessionManager *httpManager = [AFHTTPSessionManager manager];
     httpManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
     [ProgressHUD show:@"正在加载"];
@@ -97,8 +103,11 @@
         cell = [[HotTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:newCell];
         
     }
-    HotModel *model = self.allTitleArray[indexPath.row];
-    cell.hotModel = model;
+    if (indexPath.row < self.allTitleArray.count) {
+        HotModel *model = self.allTitleArray[indexPath.row];
+        cell.hotModel = model;
+    }
+    cell.delegate = self;
     self.tableView.separatorColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -134,6 +143,20 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = NO;
+}
+
+//实现代理方法
+- (void)buttonTarget:(UIButton *)btn{
+    if (btn.tag == 12) {
+        HotTableViewCell *cell = (HotTableViewCell *)[[btn superview] superview];
+        NSIndexPath *path = [self.tableView indexPathForCell:cell];
+        DetaiViewController *detailVC = [[DetaiViewController alloc] init];
+        HotModel *model = self.allTitleArray[path.row] ;
+        detailVC.detailID = model.jokeID;
+        detailVC.detailModel = model;
+        [self.navigationController pushViewController:detailVC animated:YES];
+    }
+    
 }
 
 #pragma mark -------------- lazyLoading

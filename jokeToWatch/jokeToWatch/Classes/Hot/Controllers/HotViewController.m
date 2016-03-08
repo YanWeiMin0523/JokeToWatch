@@ -13,7 +13,9 @@
 #import "ProgressHUD.h"
 #import "HotModel.h"
 #import "DetaiViewController.h"
-@interface HotViewController ()<PullingRefreshTableViewDelegate, UITableViewDataSource, UITableViewDelegate>
+#import "ZMYNetManager.h"
+#import "Reachability.h"
+@interface HotViewController ()<PullingRefreshTableViewDelegate, UITableViewDataSource, UITableViewDelegate, cellButtonTargetDelegate>
 {
     NSInteger _pageCount;
 }
@@ -35,7 +37,20 @@
     [self.tableVIew launchRefreshing];
     
 }
-
+//实现代理方法
+- (void)buttonTarget:(UIButton *)btn{
+    if (btn.tag == 12) {
+        //判断点击的是那个cell上的button
+        HotTableViewCell *cell = (HotTableViewCell *)[[btn superview] superview];
+        NSIndexPath *path = [self.tableVIew indexPathForCell:cell];
+        DetaiViewController *detailVC = [[DetaiViewController alloc] init];
+        HotModel *model = self.allItemsArray[path.row] ;
+            detailVC.detailID = model.jokeID;
+            detailVC.detailModel = model;
+        [self.navigationController pushViewController:detailVC animated:YES];
+    }
+    
+}
 #pragma mark -------------- UITableViewDataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *hotIden = @"hotCell";
@@ -44,22 +59,28 @@
         hotCell = [[HotTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:hotIden];
     }
     
-    HotModel *model = self.allItemsArray[indexPath.row];
     self.tableVIew.separatorColor = [UIColor clearColor];
-    hotCell.hotModel = model;
+   
+    if (self.allItemsArray.count > indexPath.row) {
+        HotModel *hotModel = self.allItemsArray[indexPath.row];
+        hotCell.hotModel = hotModel;
+    }
+    hotCell.delegate = self;
+
     hotCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return hotCell;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
     return self.allItemsArray.count;
 }
 
 #pragma mark ---------- UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     DetaiViewController *detailVC = [[DetaiViewController alloc] init];
-    HotModel *model = self.allItemsArray[indexPath.row];
-    detailVC.detailID = model.jokeID;
-    detailVC.detailModel = model;
+    HotModel *hotModel = self.allItemsArray[indexPath.row];
+    detailVC.detailID = hotModel.jokeID;
+    detailVC.detailModel = hotModel;
     [self.navigationController pushViewController:detailVC animated:YES];
     
 }
@@ -98,6 +119,10 @@
 
 #pragma mark ------------ CustomMethod
 - (void)hotTitleToRequest{
+    if (![ZMYNetManager shareZMYNetManager]) {
+        [ProgressHUD show:@"当前网络不可用"];
+        return;
+    }
     AFHTTPSessionManager *hotManager = [AFHTTPSessionManager manager];
     hotManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
     [ProgressHUD show:@"正在加载"];

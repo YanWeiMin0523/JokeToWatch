@@ -19,5 +19,6 @@
 
 //最新接口
 #define kNewestPort @"http://m2.qiushibaike.com/article/list/latest?count=30"
+#define kBmobKey @"af513fed5f29181973e344f8a9c5da46"
 
 #endif /* JokeDefine_h */

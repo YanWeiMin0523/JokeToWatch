@@ -7,10 +7,13 @@
 //
 
 #import "LoginViewController.h"
-
+#import <BmobSDK/Bmob.h>
+#import "PassWordViewController.h"
+#import "ProgressHUD.h"
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *userText;
 @property (weak, nonatomic) IBOutlet UITextField *passText;
+@property (weak, nonatomic) IBOutlet UISwitch *checkPass;
 
 
 
@@ -21,8 +24,59 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self backToPreviousPageWithImage];
+    //密码密文
+    self.passText.secureTextEntry = YES;
+    self.checkPass.on = NO;
+    self.tabBarController.tabBar.hidden = YES;
+    
 }
+//登录
 - (IBAction)loginBtn:(id)sender {
+    [BmobUser loginInbackgroundWithMobilePhoneNumber:self.userText.text andSMSCode:nil block:^(BmobUser *user, NSError *error) {
+        if (user) {
+            [ProgressHUD showSuccess:@"登录成功"];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+        UIAlertController *alterC = [UIAlertController alertControllerWithTitle:@"提示" message:@"用户不存在,请先注册" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UIStoryboard *passStory = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+            PassWordViewController *passVC = [passStory instantiateViewControllerWithIdentifier:@"passID"];
+            [self.navigationController pushViewController:passVC animated:YES];
+            [self.view endEditing:YES];
+        }] ;
+        UIAlertAction *alertCancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alterC addAction:alertCancel];
+        [alterC addAction:alertAction];
+        [self presentViewController:alterC animated:YES completion:nil];
+    }];
+    
+}
+//密码显示
+- (IBAction)checkPassSwitch:(id)sender {
+    UISwitch *passSwitch = sender;
+    if (passSwitch.on) {
+        self.passText.secureTextEntry = NO;
+    }else{
+    self.passText.secureTextEntry = YES;
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.tabBarController.tabBar.hidden = NO;
+}
+
+//回收键盘
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.view endEditing:YES];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning {

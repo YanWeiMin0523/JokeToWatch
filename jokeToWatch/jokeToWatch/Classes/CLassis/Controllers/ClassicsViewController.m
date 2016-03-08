@@ -12,6 +12,9 @@
 #import "ClassisTableViewCell.h"
 #import "ClassisModel.h"
 #import <AFHTTPSessionManager.h>
+#import "PictureViewController.h"
+#import "ZMYNetManager.h"
+#import "Reachability.h"
 @interface ClassicsViewController ()<UITableViewDataSource, UITableViewDelegate, PullingRefreshTableViewDelegate>
 {
     NSInteger _pageCount;
@@ -45,13 +48,22 @@
     if (classisCell == nil) {
         classisCell = [[ClassisTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cell];
     }
-    
-    ClassisModel *model = self.allTextArray[indexPath.row];
-    classisCell.classModel = model;
-
-    
+    if (indexPath.row < self.allTextArray.count) {
+        ClassisModel *model = self.allTextArray[indexPath.row];
+        classisCell.classModel = model;
+    }    
     classisCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return classisCell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    PictureViewController *pictureVC = [[PictureViewController alloc] init];
+    pictureVC.model = self.allTextArray[indexPath.row];
+    if (pictureVC.model != nil) {
+        [self.navigationController pushViewController:pictureVC animated:YES];
+    }
+    
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -67,6 +79,10 @@
 
 #pragma mark --------------- CustomMethod
 - (void)classisRequest{
+    if (![ZMYNetManager shareZMYNetManager]) {
+        [ProgressHUD show:@"当前网络不可用"];
+        return;
+    }
     AFHTTPSessionManager *classisManager = [AFHTTPSessionManager manager];
     classisManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", @"application/json", nil];
     [ProgressHUD show:@"正在加载"];

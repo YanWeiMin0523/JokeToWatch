@@ -8,10 +8,12 @@
 
 #import "HotTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "DetaiViewController.h"
+#import "TimeTools.h"
 @interface HotTableViewCell ()
 {
     CGFloat _lastLabelBottom;//自定义后label的高度
+    UIAlertView *alertPrise;
+    UIAlertView *alertCai;
 }
 @property (strong, nonatomic)  UIImageView *headImage;
 @property (strong, nonatomic)  UILabel *titleLable;
@@ -41,9 +43,10 @@
 - (void)addControlToCell{
     self.headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 3, kWidth / 8, kWidth / 8)];
     [self.contentView addSubview:self.headImage];
-    self.titleLable = [[UILabel alloc] initWithFrame:CGRectMake(kWidth / 8 + 15, 15, kWidth * 3 / 4, kWidth / 4 / 4)];
+    self.titleLable = [[UILabel alloc] initWithFrame:CGRectMake(kWidth / 8 + 15, 15, kWidth * 2 / 4, kWidth / 4 / 4)];
     [self.contentView addSubview:self.titleLable];
-    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kWidth * 7 / 8, 15, kWidth / 8, kWidth / 16)];
+    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kWidth * 6 / 8, 15, kWidth / 4, kWidth / 16)];
+    self.timeLabel.font = [UIFont systemFontOfSize:12.0];
     [self.contentView addSubview:self.timeLabel];
     self.plainLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, kWidth / 8 + 10, kWidth - 20, kWidth / 4 )];
     self.plainLabel.numberOfLines = 0;
@@ -67,7 +70,8 @@
     
     self.appraiseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.appraiseBtn setImage:[UIImage imageNamed:@"icon_for_comment"] forState:UIControlStateNormal];
-    [self.appraiseBtn addTarget:self action:@selector(addToapprise:) forControlEvents:UIControlEventTouchUpInside];
+    [self.appraiseBtn addTarget:self action:@selector(addToprise:) forControlEvents:UIControlEventTouchUpInside];
+    self.appraiseBtn.tag = 12;
     self.appraiseBtn.layer.cornerRadius = 10.0;
     self.appraiseBtn.clipsToBounds = YES;
     self.appraiseBtn.layer.borderWidth = 1.0;
@@ -84,30 +88,42 @@
 }
 //button按钮
 - (void)addToprise:(UIButton *)btn{
-    if (btn.tag == 10) {
-        //点赞
-        
-    }else{
-        //踩
-        
+    if (self.delegate && [self.delegate respondsToSelector:@selector(buttonTarget:)]) {
+        self.tag = btn.tag;
+        [self.delegate buttonTarget:btn];
     }
-    
+    if (btn.tag == 10) {
+        alertPrise = [[UIAlertView alloc] initWithTitle:@"赞 赞 赞" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [alertPrise show];
+        NSTimer *timer;
+        timer= [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(doTimer) userInfo:nil repeats:YES];
+    }
+    if (btn.tag == 11) {
+        alertCai = [[UIAlertView alloc] initWithTitle:@"踩 踩 踩" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [alertCai show];
+        NSTimer *timer;
+        timer= [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(doTimer) userInfo:nil repeats:YES];
+    }
 }
-//评论
-- (void)addToapprise:(UIButton *)btn{
-
-    
+- (void)doTimer{
+    [alertPrise dismissWithClickedButtonIndex:0 animated:YES];
+    [alertCai dismissWithClickedButtonIndex:0 animated:YES];
 }
-
 
 - (void)setHotModel:(HotModel *)hotModel{
-    if (hotModel.headImage == nil) {
+    
+    NSURL *url = [NSURL URLWithString:hotModel.headImage];
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+    if (image == nil) {
         [self.headImage setImage:[UIImage imageNamed:@"defaultHeadImage"]];
     }
     [self.headImage sd_setImageWithURL:[NSURL URLWithString:hotModel.headImage] placeholderImage:nil];
     self.headImage.layer.cornerRadius = 10;
     self.headImage.clipsToBounds = YES;
-    self.timeLabel.text = [NSString stringWithFormat:@"%@", hotModel.time];
+    self.timeLabel.text = [TimeTools getDateString:hotModel.time];
+    if ([hotModel.title isEqualToString:@""]) {
+        self.titleLable.text = @"匿名用户";
+    }
     self.titleLable.text = hotModel.title;
     self.plainLabel.text = hotModel.plain;
     //自定义高度后重新给定frame

@@ -38,7 +38,7 @@
 //button点击登录
 - (void)goToLogin{
     UIStoryboard *loginStory = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-    LoginViewController *loginVC = [loginStory instantiateInitialViewController];
+    LoginViewController *loginVC = [loginStory instantiateViewControllerWithIdentifier:@"LoginID"];
     [self.navigationController pushViewController:loginVC animated:YES];
 }
 

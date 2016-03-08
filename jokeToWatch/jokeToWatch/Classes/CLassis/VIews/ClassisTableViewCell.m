@@ -49,13 +49,22 @@
     self.shareImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, kWidth * 3 / 8 + 20, kWidth - 20, kWidth / 2)];
     [self.contentView addSubview:self.shareImage];
     
-    self.votesNBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [self.votesNBtn setImage:[UIImage imageNamed:@"btn_praise"] forState:UIControlStateNormal];
-    self.votesYBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [self.votesYBtn setImage:[UIImage imageNamed:@"btn_down"] forState:UIControlStateNormal];
+    self.votesNBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.votesNBtn setImage:[UIImage imageNamed:@"icon_for_bad"] forState:UIControlStateNormal];
+    self.votesNBtn.layer.cornerRadius = 10.0;
+    self.votesNBtn.clipsToBounds = YES;
+    self.votesNBtn.layer.borderWidth = 1.0;
+    self.votesYBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.votesYBtn setImage:[UIImage imageNamed:@"icon_for_good"] forState:UIControlStateNormal];
+    self.votesYBtn.layer.cornerRadius = 10.0;
+    self.votesYBtn.clipsToBounds = YES;
+    self.votesYBtn.layer.borderWidth = 1.0;
     
-    self.appraiseBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [self.appraiseBtn setImage:[UIImage imageNamed:@"btn_keep"] forState:UIControlStateNormal];
+    self.appraiseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.appraiseBtn setImage:[UIImage imageNamed:@"icon_for_comment"] forState:UIControlStateNormal];
+    self.appraiseBtn.layer.cornerRadius = 10.0;
+    self.appraiseBtn.clipsToBounds = YES;
+    self.appraiseBtn.layer.borderWidth = 1.0;
     [[UIButton appearance] setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.contentView addSubview:self.votesYBtn];
     [self.contentView addSubview:self.votesNBtn];
@@ -88,8 +97,8 @@
         self.appraiseBtn.frame = CGRectMake(kWidth * 3 / 8 + 120, labelHeight + 15, 100, 30);
     }
     CGFloat imageH = [classModel.imageHeight integerValue];
-    _imageBottomHeight = labelHeight + imageH/ 4 + kWidth / 8 - 20;
-    self.shareImage.frame = CGRectMake(10, labelHeight + 15, kWidth - 20, imageH / 4);
+    _imageBottomHeight = labelHeight + imageH/ 2 + kWidth / 8 - 20;
+    self.shareImage.frame = CGRectMake(10, labelHeight + 15, kWidth - 20, imageH / 2);
     [self.shareImage sd_setImageWithURL:[NSURL URLWithString:classModel.shareImage] placeholderImage:nil];
     [self.appraiseBtn setTitle:[NSString stringWithFormat:@"%@", classModel.apprise] forState:UIControlStateNormal];
     [self.votesYBtn setTitle:[NSString stringWithFormat:@"%@", classModel.votesY] forState:UIControlStateNormal];
@@ -97,7 +106,7 @@
     
     self.votesYBtn.frame = CGRectMake(10, _imageBottomHeight, 100, 30);
     self.votesNBtn.frame = CGRectMake(kWidth / 4 + 50, _imageBottomHeight, 100, 30);
-    self.appraiseBtn.frame = CGRectMake(kWidth * 3 / 8 + 120, _imageBottomHeight, 100, 30);
+    self.appraiseBtn.frame = CGRectMake(kWidth * 3 / 8 + 120, _imageBottomHeight, 80, 30);
     self.lineLabel.frame = CGRectMake(0, _imageBottomHeight + 30, kWidth, 10);
     
 
@@ -106,7 +115,7 @@
 + (CGFloat)getTextHeightWith:(ClassisModel *)model{
     CGFloat textHeight = [TimeTools getTextHeightWithText:model.plain];
     if (model.shareImage != nil) {
-        return textHeight + [model.imageHeight integerValue]/4 + kWidth / 8 + 60;
+        return textHeight + [model.imageHeight integerValue]/2 + kWidth / 8 + 60;
     }
     return textHeight + kWidth / 8 + 70;
 }
