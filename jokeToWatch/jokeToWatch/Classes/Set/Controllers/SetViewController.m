@@ -10,9 +10,16 @@
 #import "ProgressHUD.h"
 #import <SDWebImage/SDImageCache.h>
 #import "LoginViewController.h"
+#import "LPLevelView.h"
+#import "CollectViewController.h"
+#import "CollectModel.h"
 @interface SetViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) NSMutableArray *titleArray;
+@property(nonatomic, strong) UIButton *loginBtn;
+@property(nonatomic, strong) UILabel *nameLabel;
+@property(nonatomic, strong) LPLevelView *leveView;
+@property(nonatomic, strong) UIView *levelV;
 @end
 
 @implementation SetViewController
@@ -21,19 +28,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.view addSubview:self.tableView];
-    UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    loginBtn.frame = CGRectMake(kWidth - 44, 0, 44, 44);
-    [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
-    [loginBtn addTarget:self action:@selector(goToLogin) forControlEvents:UIControlEventTouchUpInside];
-    [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc] initWithCustomView:loginBtn];
-    self.navigationItem.rightBarButtonItem = rightBar;
     
     //cell
-    self.titleArray = [NSMutableArray arrayWithObjects:@"清理图片缓存", @"当前版本",@"评分" ,nil];
+    self.titleArray = [NSMutableArray arrayWithObjects:@"清理图片缓存", @"当前版本",@"评分", @"我的收藏" ,nil];
+    //头部
+    [self headImageView];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     
 }
 
+- (void)headImageView{
+    UIView *headView =[[UIView alloc] initWithFrame:CGRectMake(0, 5, kWidth, 150)];
+    headView.backgroundColor =[UIColor colorWithRed:255.0/255.0 green:194/255.0 blue:90/255.0 alpha:1.0];
+    self.tableView.tableHeaderView = headView;
+    [headView addSubview:self.loginBtn];
+    [headView addSubview:self.nameLabel];
+    
+}
 
 //button点击登录
 - (void)goToLogin{
@@ -79,19 +90,23 @@
             [self clearImage];
             break;
             
-            case 1:
+        case 1:
         {
             [ProgressHUD show:@"正在为你检测"];
             [self performSelector:@selector(checkVersions) withObject:nil afterDelay:1.0];
             
         }
             break;
-            case 2:
-        {
-            NSString *str = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app"];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-        }
+        case 2:
             
+            [self gradeToApp];
+            
+            break;
+        case 3:
+            //推出收藏界面
+            [self pushCollectVC];
+            
+            break;
         default:
             break;
     }
@@ -108,11 +123,62 @@
     NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
-
 - (void)checkVersions{
     [ProgressHUD showSuccess:@"已是当前最新版本"];
 }
+- (void)gradeToApp{
+    self.tabBarController.tabBar.hidden = YES;
+    //初始化一个视图作画布
+    self.levelV = [[UIView alloc] initWithFrame:CGRectMake(0, kHeight - 300, kWidth, 250)];
+    self.levelV.backgroundColor = [UIColor whiteColor];
+    self.levelV.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.levelV.layer.borderWidth = 0.5;
+    [self.view addSubview:self.levelV];
+    
+    UIButton *removeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    removeBtn.frame = CGRectMake(50, 150, kWidth-100, 30);
+    removeBtn.backgroundColor = [UIColor redColor];
+    [removeBtn setTitle:@"确定评分" forState:UIControlStateNormal];
+    [removeBtn addTarget:self action:@selector(removeView) forControlEvents:UIControlEventTouchUpInside];
+    [self.levelV addSubview:removeBtn];
+    
+    LPLevelView *lView = [LPLevelView new];
+    lView.frame = CGRectMake(120, 80, 150, 44 );
+    lView.iconColor = [UIColor orangeColor];
+    lView.iconSize = CGSizeMake(20, 20);
+    lView.canScore = YES;
+    lView.animated = YES;
+    lView.level = 2.5;
+    [lView setScoreBlock:^(float level) {
+        NSLog(@"打分：%.02f", level);
+        NSString *gradeStr = [NSString stringWithFormat:@"评分(%.02f分)", level];
+        [self.titleArray replaceObjectAtIndex:2 withObject:gradeStr];
+        NSIndexPath *dePath = [NSIndexPath indexPathForRow:2 inSection:0];
+        [self.tableView reloadRowsAtIndexPaths:@[dePath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        
+    }];
+    [self.levelV addSubview:lView];
+    
+}
+- (void)pushCollectVC{
+    CollectViewController *collectVC = [[CollectViewController alloc] init];
+    
+    CollectModel *collectManger = [CollectModel collectManger];
+    [collectManger openDataBase];
+    NSMutableDictionary *collectDic = [collectManger selectDataHot];
+    collectVC.collectDic = collectDic;
+    [self.navigationController pushViewController:collectVC animated:YES];
+    
+}
 
+-(void)removeView{
+    [self.levelV removeFromSuperview];
+    self.tabBarController.tabBar.hidden = NO;
+    
+}
+
+#pragma mark ------------------ LazyLoading
 - (UITableView *)tableView{
     if (!_tableView) {
         self.tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
@@ -121,6 +187,29 @@
         self.tableView.rowHeight = 60;
     }
     return _tableView;
+}
+
+- (UIButton *)loginBtn{
+    if (!_loginBtn) {
+        self.loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.loginBtn.frame = CGRectMake(20, 20, 120, 120);
+        self.loginBtn.layer.cornerRadius = 60;
+        self.loginBtn.clipsToBounds = YES;
+        [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
+        [self.loginBtn addTarget:self action:@selector(goToLogin) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _loginBtn;
+}
+
+- (UILabel *)nameLabel{
+    if (!_nameLabel) {
+        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(150, 60, kWidth-150, 30)];
+        self.nameLabel.numberOfLines = 0;
+        self.nameLabel.text = @"爆笑看点,让你看到笑爆！";
+        self.nameLabel.textColor = [UIColor whiteColor];
+        self.nameLabel.font = [UIFont systemFontOfSize:19.0];
+    }
+    return _nameLabel;
 }
 
 - (void)didReceiveMemoryWarning {

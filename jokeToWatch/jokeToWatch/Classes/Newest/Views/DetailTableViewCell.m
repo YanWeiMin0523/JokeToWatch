@@ -30,6 +30,7 @@
 
 - (void)configViewToLabel{
     self.headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, kWidth / 8, kWidth / 8)];
+    self.headImage.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"defaultHeadImage"]];
     self.headImage.layer.cornerRadius = 10;
     self.headImage.clipsToBounds = YES;
     [self.contentView addSubview:self.headImage];

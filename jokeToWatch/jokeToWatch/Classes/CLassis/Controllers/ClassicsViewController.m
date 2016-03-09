@@ -59,7 +59,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     PictureViewController *pictureVC = [[PictureViewController alloc] init];
     pictureVC.model = self.allTextArray[indexPath.row];
-    if (pictureVC.model != nil) {
+    if (pictureVC.model.shareImage != nil) {
         [self.navigationController pushViewController:pictureVC animated:YES];
     }
     

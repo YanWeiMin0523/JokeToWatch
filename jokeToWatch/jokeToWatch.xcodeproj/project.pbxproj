@@ -59,6 +59,10 @@
 		7AA77A8B1C8DAFCF00436861 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AA77A8A1C8DAFCF00436861 /* libsqlite3.tbd */; };
 		7AA77A8D1C8DAFD700436861 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AA77A8C1C8DAFD700436861 /* AVFoundation.framework */; };
 		7AA77A8F1C8DAFE100436861 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AA77A8E1C8DAFE100436861 /* MediaPlayer.framework */; };
+		7AB99ACA1C90180F004348C9 /* CollectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB99AC91C90180F004348C9 /* CollectModel.m */; };
+		7AB99ACD1C902D7D004348C9 /* CollectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB99ACC1C902D7D004348C9 /* CollectViewController.m */; };
+		7AD4748D1C8FC0DC00DE2FCA /* LPLevelView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7AD4748A1C8FC0DC00DE2FCA /* LPLevelView.bundle */; };
+		7AD4748E1C8FC0DC00DE2FCA /* LPLevelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AD4748C1C8FC0DC00DE2FCA /* LPLevelView.m */; };
 		9DF385F5D2A300E329DEDC4D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19D4B2BE8F32860F24220CB3 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -144,6 +148,13 @@
 		7AA77A8A1C8DAFCF00436861 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		7AA77A8C1C8DAFD700436861 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		7AA77A8E1C8DAFE100436861 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		7AB99AC81C90180F004348C9 /* CollectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectModel.h; sourceTree = "<group>"; };
+		7AB99AC91C90180F004348C9 /* CollectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectModel.m; sourceTree = "<group>"; };
+		7AB99ACB1C902D7D004348C9 /* CollectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectViewController.h; sourceTree = "<group>"; };
+		7AB99ACC1C902D7D004348C9 /* CollectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectViewController.m; sourceTree = "<group>"; };
+		7AD4748A1C8FC0DC00DE2FCA /* LPLevelView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LPLevelView.bundle; sourceTree = "<group>"; };
+		7AD4748B1C8FC0DC00DE2FCA /* LPLevelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPLevelView.h; sourceTree = "<group>"; };
+		7AD4748C1C8FC0DC00DE2FCA /* LPLevelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPLevelView.m; sourceTree = "<group>"; };
 		A211AF072EA5911633726245 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E3367C4D8DEE554CEE379203 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -153,9 +164,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AA77A8B1C8DAFCF00436861 /* libsqlite3.tbd in Frameworks */,
 				7AA77A8F1C8DAFE100436861 /* MediaPlayer.framework in Frameworks */,
 				7AA77A8D1C8DAFD700436861 /* AVFoundation.framework in Frameworks */,
-				7AA77A8B1C8DAFCF00436861 /* libsqlite3.tbd in Frameworks */,
 				7AA77A891C8DAFC000436861 /* libicucore.tbd in Frameworks */,
 				7AA77A871C8DAFB400436861 /* libz.1.2.5.tbd in Frameworks */,
 				7AA77A851C8DAFA700436861 /* SystemConfiguration.framework in Frameworks */,
@@ -331,6 +342,8 @@
 			children = (
 				7A59BC511C8852D9009CAD5B /* HotModel.h */,
 				7A59BC521C8852D9009CAD5B /* HotModel.m */,
+				7AB99AC81C90180F004348C9 /* CollectModel.h */,
+				7AB99AC91C90180F004348C9 /* CollectModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -362,6 +375,8 @@
 				7A59BC101C880789009CAD5B /* NewestViewController.m */,
 				7A1283181C8C15DF00AE517C /* DetaiViewController.h */,
 				7A1283191C8C15DF00AE517C /* DetaiViewController.m */,
+				7AB99ACB1C902D7D004348C9 /* CollectViewController.h */,
+				7AB99ACC1C902D7D004348C9 /* CollectViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -422,6 +437,7 @@
 			children = (
 				7A59BC261C88098B009CAD5B /* Set.storyboard */,
 				7AA77A6E1C8D81C200436861 /* Login.storyboard */,
+				7AD474891C8FC0DC00DE2FCA /* LPLevelView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -475,6 +491,16 @@
 				7AA77A751C8DA6CC00436861 /* BmobSDK.framework */,
 			);
 			path = Bmob_SDK_iOS_v1.6.6;
+			sourceTree = "<group>";
+		};
+		7AD474891C8FC0DC00DE2FCA /* LPLevelView */ = {
+			isa = PBXGroup;
+			children = (
+				7AD4748A1C8FC0DC00DE2FCA /* LPLevelView.bundle */,
+				7AD4748B1C8FC0DC00DE2FCA /* LPLevelView.h */,
+				7AD4748C1C8FC0DC00DE2FCA /* LPLevelView.m */,
+			);
+			path = LPLevelView;
 			sourceTree = "<group>";
 		};
 		9D26C1F5984DDD112819149B /* Pods */ = {
@@ -556,6 +582,7 @@
 				7AA77A761C8DA6CC00436861 /* Bmob_iOS_SDK更新历史.txt in Resources */,
 				7A59BC451C883E23009CAD5B /* blueArrow.png in Resources */,
 				7A59BC291C8827BE009CAD5B /* Classis.storyboard in Resources */,
+				7AD4748D1C8FC0DC00DE2FCA /* LPLevelView.bundle in Resources */,
 				7A59BBDB1C87E123009CAD5B /* Main.storyboard in Resources */,
 				7A59BC271C88098B009CAD5B /* Set.storyboard in Resources */,
 				7A59BC251C880916009CAD5B /* Newest.storyboard in Resources */,
@@ -618,6 +645,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AB99ACA1C90180F004348C9 /* CollectModel.m in Sources */,
 				7AA77A721C8D857F00436861 /* PassWordViewController.m in Sources */,
 				7A59BC1B1C880789009CAD5B /* ViewController.m in Sources */,
 				7AA77A681C8D2D6000436861 /* CommentModel.m in Sources */,
@@ -641,9 +669,11 @@
 				7A026F821C8A7D9F00AA072A /* ClassisModel.m in Sources */,
 				7A01E7111C8EB41700FB2357 /* ForgetViewController.m in Sources */,
 				7A59BC1E1C880789009CAD5B /* HotTableViewCell.m in Sources */,
+				7AD4748E1C8FC0DC00DE2FCA /* LPLevelView.m in Sources */,
 				7A026F941C8AD63E00AA072A /* UIViewController+BackPage.m in Sources */,
 				7A59BC591C8874FF009CAD5B /* TimeTools.m in Sources */,
 				7A01E7031C8E4DD500FB2357 /* PictureViewController.m in Sources */,
+				7AB99ACD1C902D7D004348C9 /* CollectViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

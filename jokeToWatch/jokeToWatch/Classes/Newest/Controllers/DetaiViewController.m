@@ -15,6 +15,7 @@
 #import "ZMYNetManager.h"
 #import "Reachability.h"
 #import "ProgressHUD.h"
+#import "CollectModel.h"
 @interface DetaiViewController ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, PullingRefreshTableViewDelegate>
 {
     NSInteger _pageCount;
@@ -40,6 +41,12 @@
     self.tabBarController.tabBar.hidden = YES;
     self.title = @"爆笑详情";
     [self.view addSubview:self.tableView];
+    
+    //初始化数据库对象
+    CollectModel *collect = [CollectModel collectManger];
+    //创建数据库
+    [collect openDataBase];
+    
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(kWidth-44, kHeight-40, 60, 44);
@@ -126,26 +133,6 @@
     [super viewWillDisappear:YES];
     self.tabBarController.tabBar.hidden = NO;
 }
-
-#pragma mark ----------- TableView可增加
-//- (void)setEditing:(BOOL)editing animated:(BOOL)animated{
-//    [self.tableView setEditing:YES animated:YES];
-//}
-//
-//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-//    return YES;
-//}
-//- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    return UITableViewCellEditingStyleInsert;
-//}
-
-//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-//    NSMutableArray *group = self.commentArray[indexPath.row];
-//    [group insertObject:self.commentText.text atIndex:indexPath.row];
-//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-//    
-//}
-
 
 #pragma mark ------------- CustomMethod
 
@@ -243,6 +230,10 @@
     [self.publishBtn setBackgroundImage:[UIImage imageNamed:@"button_vote_activ"] forState:UIControlStateNormal];
     [self.publishBtn addTarget:self action:@selector(publishToCell:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.publishBtn];
+    
+    CollectModel *dataManger = [CollectModel collectManger];
+    [dataManger insertTntoDataHot:self.detailModel];
+    [ProgressHUD showSuccess:@"收藏成功"];
 
     
 }
@@ -254,6 +245,8 @@
     if (self.commentText.text != nil) {
         [self.commentArray insertObject:self.commentText.text atIndex:0];
     }
+    
+    
     
 }
 

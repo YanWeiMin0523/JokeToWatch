@@ -38,7 +38,7 @@
     [self.contentView addSubview:self.headImage];
     self.titleLable = [[UILabel alloc] initWithFrame:CGRectMake(kWidth / 8 + 15, 5, kWidth /2, kWidth / 4 / 4)];
     [self.contentView addSubview:self.titleLable];
-    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kWidth * 5 / 8, 5, kWidth * 3/ 8, kWidth / 16)];
+    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kWidth * 6 / 8 - 20, 5, kWidth * 4 + 20, kWidth / 16)];
     self.timeLabel.font = [UIFont systemFontOfSize:12.0];
     [self.contentView addSubview:self.timeLabel];
     
@@ -82,7 +82,8 @@
     self.headImage.layer.cornerRadius = 10;
     self.headImage.clipsToBounds = YES;
     self.titleLable.text = classModel.title;
-    self.timeLabel.text = [NSString stringWithFormat:@"%@", classModel.time];
+    NSString *timeStr = [NSString stringWithFormat:@"%@", classModel.time];
+    self.timeLabel.text = [timeStr substringToIndex:16];
     self.plainLabel.text = classModel.plain;
     //自定义高度之后重新设定frame
     CGFloat textHeight = [TimeTools getTextHeightWithText:classModel.plain];

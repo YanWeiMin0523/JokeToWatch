@@ -11,12 +11,12 @@
 @implementation TimeTools
 
 #pragma mark ----------- 时间转换
-
+//请求数据
 + (NSString *)getDateString:(NSString *)timeStamp{
     NSTimeInterval time = [timeStamp doubleValue];
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:time];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy.MM.dd"];
+    [formatter setDateFormat:@"yyyy.MM.dd HH:mm"];
     NSString *timeStr = [formatter stringFromDate:date];
     return timeStr;
 }

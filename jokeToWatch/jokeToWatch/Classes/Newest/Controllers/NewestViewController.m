@@ -140,6 +140,8 @@
 - (NSDate *)pullingTableViewRefreshingFinishedDate{
     return [TimeTools getNowDate];
 }
+
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden = NO;

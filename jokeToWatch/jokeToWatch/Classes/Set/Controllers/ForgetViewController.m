@@ -9,7 +9,11 @@
 #import "ForgetViewController.h"
 #import <BmobSDK/Bmob.h>
 #import "ProgressHUD.h"
+#import <BmobSDK/BmobSMS.h>
 @interface ForgetViewController ()
+{
+    UIAlertView *alertV;
+}
 @property (weak, nonatomic) IBOutlet UITextField *phoneText;
 @property (weak, nonatomic) IBOutlet UITextField *verifyCodeText;
 @property (weak, nonatomic) IBOutlet UITextField *forgetPassText;
@@ -84,24 +88,46 @@
 
 //验证码
 - (IBAction)verifyCode:(id)sender {
+    [BmobSMS requestSMSCodeInBackgroundWithPhoneNumber:self.phoneText.text andTemplate:@"验证码" resultBlock:^(int number, NSError *error) {
+        alertV = [[UIAlertView alloc] initWithTitle:@"验证码十分钟内有效" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+        [alertV show];
+        NSTimer *timer;
+        timer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(doTimer) userInfo:nil repeats:YES];
+    }];
+   
     
 }
+
+- (void)doTimer{
+    [alertV dismissWithClickedButtonIndex:0 animated:YES];
+}
+
 //完成
 - (IBAction)achieveForgetPass:(id)sender {
     if (![self chechMessggeSure]) {
         return;
     }
+    //验证验证码
+//    [BmobSMS verifySMSCodeInBackgroundWithPhoneNumber:self.phoneText.text andSMSCode:self.verifyCodeText.text resultBlock:^(BOOL isSuccessful, NSError *error) {
+//        if (isSuccessful) {
+//            YWMLog(@"验证成功");
+//        }YWMLog(@"%@", error);
+//            }];
+    //验证码重置密码
     [BmobUser resetPasswordInbackgroundWithSMSCode:self.verifyCodeText.text andNewPassword:self.forgetPassText.text block:^(BOOL isSuccessful, NSError *error) {
         if (isSuccessful) {
             [ProgressHUD showSuccess:@"重置密码成功"];
             YWMLog(@"修改成功");
-        }
+        }else{
         [ProgressHUD showError:@"很遗憾，密码修改失败"];
         YWMLog(@"%@", error);
+        }
     }];
 
     
 }
+
+
 //密码明文
 - (IBAction)passSwitch:(id)sender {
     UISwitch *forgetSwitch = sender;

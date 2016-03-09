@@ -10,6 +10,7 @@
 #import <BmobSDK/Bmob.h>
 #import "ProgressHUD.h"
 #import "ForgetViewController.h"
+
 @interface PassWordViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *phoneText;
 @property (weak, nonatomic) IBOutlet UITextField *passText;
@@ -40,11 +41,19 @@
     }
     [ProgressHUD show:@"正在注册……"];
     BmobUser *bmobUser = [[BmobUser alloc] init];
-    [bmobUser setMobilePhoneNumber:self.phoneText.text];
+    [bmobUser setUsername:self.phoneText.text];
     [bmobUser setPassword:self.passText.text];
+    [bmobUser setMobilePhoneNumber:self.phoneText.text];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:[NSString stringWithString:self.phoneText.text] forKey:@"userName"];
+    [userDefaults setValue:[NSString stringWithString:self.passText.text] forKey:@"userPass"];
+    
     [bmobUser signUpInBackgroundWithBlock:^(BOOL isSuccessful, NSError *error) {
         if (isSuccessful) {
             [ProgressHUD showSuccess:@"恭喜你，注册成功"];
+            //保存数据
+            [userDefaults synchronize];
             YWMLog(@"注册成功");
         }else{
             [ProgressHUD showError:@"很遗憾，你注册失败了/(ㄒoㄒ)/~~"];

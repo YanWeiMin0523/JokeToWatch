@@ -42,10 +42,11 @@
 
 - (void)addControlToCell{
     self.headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 3, kWidth / 8, kWidth / 8)];
+    self.headImage.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"defaultHeadImage"]];
     [self.contentView addSubview:self.headImage];
     self.titleLable = [[UILabel alloc] initWithFrame:CGRectMake(kWidth / 8 + 15, 15, kWidth * 2 / 4, kWidth / 4 / 4)];
     [self.contentView addSubview:self.titleLable];
-    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kWidth * 6 / 8, 15, kWidth / 4, kWidth / 16)];
+    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kWidth * 6 / 8 - 20, 15, kWidth / 4 + 20, kWidth / 16)];
     self.timeLabel.font = [UIFont systemFontOfSize:12.0];
     [self.contentView addSubview:self.timeLabel];
     self.plainLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, kWidth / 8 + 10, kWidth - 20, kWidth / 4 )];
@@ -84,6 +85,7 @@
     self.lineLabel.backgroundColor = [UIColor grayColor];
     self.lineLabel.alpha = 0.2;
     [self.contentView addSubview:self.lineLabel];
+    [self.headImage setImage:[UIImage imageNamed:@"defaultHeadImage"]];
     
 }
 //button按钮
@@ -111,17 +113,11 @@
 }
 
 - (void)setHotModel:(HotModel *)hotModel{
-    
-    NSURL *url = [NSURL URLWithString:hotModel.headImage];
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
-    if (image == nil) {
-        [self.headImage setImage:[UIImage imageNamed:@"defaultHeadImage"]];
-    }
     [self.headImage sd_setImageWithURL:[NSURL URLWithString:hotModel.headImage] placeholderImage:nil];
     self.headImage.layer.cornerRadius = 10;
     self.headImage.clipsToBounds = YES;
     self.timeLabel.text = [TimeTools getDateString:hotModel.time];
-    if ([hotModel.title isEqualToString:@""]) {
+    if (hotModel.title.length <= 0) {
         self.titleLable.text = @"匿名用户";
     }
     self.titleLable.text = hotModel.title;
