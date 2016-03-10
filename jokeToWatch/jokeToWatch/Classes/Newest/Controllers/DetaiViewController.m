@@ -16,6 +16,7 @@
 #import "Reachability.h"
 #import "ProgressHUD.h"
 #import "CollectModel.h"
+#import "ShareView.h"
 @interface DetaiViewController ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, PullingRefreshTableViewDelegate>
 {
     NSInteger _pageCount;
@@ -41,21 +42,27 @@
     self.tabBarController.tabBar.hidden = YES;
     self.title = @"爆笑详情";
     [self.view addSubview:self.tableView];
-    
-    //初始化数据库对象
-    CollectModel *collect = [CollectModel collectManger];
-    //创建数据库
-    [collect openDataBase];
-    
-    
+      //收藏
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(kWidth-44, kHeight-40, 60, 44);
-    [button setTitle:@"评论" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(pulblishThink:) forControlEvents:UIControlEventTouchUpInside];
+    button.frame = CGRectMake(kWidth - 40, 0, 30, 30);
+    [button setBackgroundImage:[UIImage imageNamed:@"icon_post_enable"] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(pulblishThink) forControlEvents:UIControlEventTouchUpInside];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    UIBarButtonItem *rightBar = [[UIBarButtonItem alloc] initWithCustomView:button];
-    self.navigationItem.rightBarButtonItem = rightBar;
+    //分享
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:button];
+    
+    UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [shareBtn setBackgroundImage:[UIImage imageNamed:@"icon_share"] forState:UIControlStateNormal];
+    shareBtn.frame = CGRectMake(kWidth - 10, 0, 30, 30);
 
+    [shareBtn addTarget:self action:@selector(goToShare) forControlEvents:UIControlEventTouchUpInside];
+    [shareBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    UIBarButtonItem *shareBar = [[UIBarButtonItem alloc] initWithCustomView:shareBtn];
+    self.navigationItem.rightBarButtonItems = @[shareBar, rightBtn];
+    
+    
+    
     [self getRequest];
     
 }
@@ -132,6 +139,7 @@
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     self.tabBarController.tabBar.hidden = NO;
+    [ProgressHUD dismiss];
 }
 
 #pragma mark ------------- CustomMethod
@@ -196,6 +204,7 @@
     return [TimeTools getNowDate];
 }
 
+
 #pragma mark ------------ LazyLoading
 - (PullingRefreshTableView *)tableView{
     if (!_tableView) {
@@ -213,40 +222,16 @@
     return _commentArray;
 }
 
-- (void)pulblishThink:(UIButton *)btn{
-    self.commentText = [[UITextField alloc] initWithFrame:CGRectMake(5, kHeight - 310, kWidth - 100, 50)];
-    self.commentText.delegate = self;
-    self.commentText.borderStyle = UITextBorderStyleRoundedRect;
-    self.commentText.placeholder = @"这一刻你在想什么";
-    self.commentText.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    self.commentText.clearButtonMode = UITextFieldViewModeAlways;
-    [self.commentText becomeFirstResponder];
-    [self.view addSubview:self.commentText];
-    
-    self.publishBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.publishBtn.frame =CGRectMake(kWidth - 90, kHeight - 310, 90, 60);
-    self.publishBtn.layer.cornerRadius = 10.0;
-    self.publishBtn.clipsToBounds = YES;
-    [self.publishBtn setBackgroundImage:[UIImage imageNamed:@"button_vote_activ"] forState:UIControlStateNormal];
-    [self.publishBtn addTarget:self action:@selector(publishToCell:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.publishBtn];
-    
+- (void)pulblishThink{
     CollectModel *dataManger = [CollectModel collectManger];
     [dataManger insertTntoDataHot:self.detailModel];
     [ProgressHUD showSuccess:@"收藏成功"];
-
-    
 }
 
-//点击发表按钮
-- (void)publishToCell:(UIButton *)btn{
-    [self.commentText removeFromSuperview];
-    [self.publishBtn removeFromSuperview];
-    if (self.commentText.text != nil) {
-        [self.commentArray insertObject:self.commentText.text atIndex:0];
-    }
-    
-    
+- (void)goToShare{
+    ShareView *shareView = [[ShareView alloc] init];
+    shareView.model = self.detailModel;
+    [self.view addSubview:shareView];
     
 }
 

@@ -85,6 +85,11 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [ProgressHUD dismiss];
+}
+
 //返回每一行的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     HotModel *model = self.allItemsArray[indexPath.row];
@@ -156,11 +161,6 @@
         YWMLog(@"%@", error);
     }];
     
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [ProgressHUD dismiss];
 }
 
 #pragma mark ---------- LazyLodaing

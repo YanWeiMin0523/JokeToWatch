@@ -147,6 +147,11 @@
     self.tabBarController.tabBar.hidden = NO;
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [ProgressHUD dismiss];
+}
+
 //实现代理方法
 - (void)buttonTarget:(UIButton *)btn{
     if (btn.tag == 12) {

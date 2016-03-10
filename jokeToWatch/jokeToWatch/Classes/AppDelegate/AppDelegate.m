@@ -12,19 +12,30 @@
 #import "SetViewController.h"
 #import "NewestViewController.h"
 #import <BmobSDK/Bmob.h>
-@interface AppDelegate ()
+#import "WeiboSDK.h"
+#import "WXApi.h"
+@interface AppDelegate ()<WeiboSDKDelegate, WXApiDelegate>
 
 @property(nonatomic, strong) UITabBarController *tabBarVC;
 
 @end
 
 @implementation AppDelegate
-
+@synthesize wbtoken;
+@synthesize wbCurrentUserID;
+@synthesize wbRefreshToken;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     //bmob
     [Bmob registerWithAppKey:kBmobKey];
+    
+    //微博
+    [WeiboSDK enableDebugMode:YES];
+    [WeiboSDK registerApp:kWeiBoAppKey];
+    
+    //微信
+    [WXApi registerApp:kWeiXinAppID];
     
     self.tabBarVC = [[UITabBarController alloc] init];
     //热门糗事
@@ -67,6 +78,44 @@
     
     return YES;
 }
+
+#pragma mark ------------ 微博 微信方法
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    return [WeiboSDK handleOpenURL:url delegate:self] || [WXApi handleOpenURL:url delegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    return [WeiboSDK handleOpenURL:url delegate:self] || [WXApi handleOpenURL:url delegate:self];
+}
+
+- (void)didReceiveWeiboRequest:(WBBaseRequest *)request{
+    
+}
+-(void)didReceiveWeiboResponse:(WBBaseResponse *)response{
+    
+    if ([response isKindOfClass:WBSendMessageToWeiboResponse.class])
+    {
+        NSString *title = NSLocalizedString(@"恭喜您，分享成功!", nil);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                        message:nil
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"确定", nil)
+                                              otherButtonTitles:nil];
+        WBSendMessageToWeiboResponse* sendMessageToWeiboResponse = (WBSendMessageToWeiboResponse*)response;
+        NSString* accessToken = [sendMessageToWeiboResponse.authResponse accessToken];
+        if (accessToken)
+        {
+            self.wbtoken = accessToken;
+        }
+        NSString* userID = [sendMessageToWeiboResponse.authResponse userID];
+        if (userID) {
+            self.wbCurrentUserID = userID;
+        }
+        [alert show];
+    }
+    
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

@@ -32,8 +32,8 @@
 
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(kWidth - 40, 0, 44, 44);
-    [button setBackgroundImage:[UIImage imageNamed:@"icon_share"] forState:UIControlStateNormal];
+    button.frame = CGRectMake(kWidth - 40, 0, 30, 30);
+    [button setBackgroundImage:[UIImage imageNamed:@"icon_pic_enable"] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(LoadingPicture) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.rightBarButtonItem = rightBtn;

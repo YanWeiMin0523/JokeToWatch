@@ -20,6 +20,7 @@
 @property(nonatomic, strong) UILabel *nameLabel;
 @property(nonatomic, strong) LPLevelView *leveView;
 @property(nonatomic, strong) UIView *levelV;
+
 @end
 
 @implementation SetViewController
@@ -30,7 +31,7 @@
     [self.view addSubview:self.tableView];
     
     //cell
-    self.titleArray = [NSMutableArray arrayWithObjects:@"清理图片缓存", @"当前版本",@"评分", @"我的收藏" ,nil];
+    self.titleArray = [NSMutableArray arrayWithObjects:@"清理图片缓存", @"当前版本",@"评分", @"我的收藏",nil];
     //头部
     [self headImageView];
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -107,6 +108,7 @@
             [self pushCollectVC];
             
             break;
+            
         default:
             break;
     }
@@ -126,6 +128,7 @@
 - (void)checkVersions{
     [ProgressHUD showSuccess:@"已是当前最新版本"];
 }
+//评分
 - (void)gradeToApp{
     self.tabBarController.tabBar.hidden = YES;
     //初始化一个视图作画布
@@ -161,13 +164,13 @@
     [self.levelV addSubview:lView];
     
 }
+//我的收藏
 - (void)pushCollectVC{
     CollectViewController *collectVC = [[CollectViewController alloc] init];
-    
     CollectModel *collectManger = [CollectModel collectManger];
     [collectManger openDataBase];
-    NSMutableDictionary *collectDic = [collectManger selectDataHot];
-    collectVC.collectDic = collectDic;
+    NSMutableArray *collectDic = [collectManger selectDataHot];
+    collectVC.collectArray = collectDic;
     [self.navigationController pushViewController:collectVC animated:YES];
     
 }
@@ -177,7 +180,6 @@
     self.tabBarController.tabBar.hidden = NO;
     
 }
-
 #pragma mark ------------------ LazyLoading
 - (UITableView *)tableView{
     if (!_tableView) {

@@ -24,6 +24,6 @@
 - (void)insertTntoDataHot:(HotModel *)insertHotData;
 
 //查
-- (NSMutableDictionary *)selectDataHot;
+- (NSMutableArray *)selectDataHot;
 
 @end

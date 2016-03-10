@@ -27,7 +27,18 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"我的收藏";
     [self.view addSubview:self.tableView];
-    [self.tableView reloadData];
+    CollectModel *collectManger = [CollectModel collectManger];
+    self.collectArray = [NSMutableArray new];
+    self.collectArray = [collectManger selectDataHot];
+    
+    for (NSDictionary *dic in self.collectArray) {
+        HotModel *model = [[HotModel alloc] initWithJokeDictionary:dic];
+        [self.allCollectArray addObject:model];
+        
+    }
+
+    
+   
 }
 
 
@@ -38,15 +49,21 @@
     if (!tableCell) {
         tableCell = [[HotTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cell];
     }
-    HotModel *model = [[HotModel alloc] initWithJokeDictionary:self.collectDic];
-    tableCell.hotModel = model;
+   
+    
+    tableCell.hotModel = self.allCollectArray[indexPath.row];
     tableCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return tableCell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    YWMLog(@"%ld", self.collectDic.count);
-    return self.collectDic.count;
+    return self.allCollectArray.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    HotModel *model = self.allCollectArray[indexPath.row];
+    CGFloat cellHeight = [HotTableViewCell getCellHeightWith:model];
+    return cellHeight + 5;
 }
 
 - (void)viewWillDisappear:(BOOL)animated{

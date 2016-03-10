@@ -10,6 +10,6 @@
 
 @interface CollectViewController : UIViewController
 
-@property(nonatomic, strong) NSMutableDictionary *collectDic;
+@property(nonatomic, strong) NSMutableArray *collectArray;
 
 @end

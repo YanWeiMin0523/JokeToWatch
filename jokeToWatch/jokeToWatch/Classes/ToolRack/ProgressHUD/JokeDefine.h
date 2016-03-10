@@ -21,4 +21,14 @@
 #define kNewestPort @"http://m2.qiushibaike.com/article/list/latest?count=30"
 #define kBmobKey @"af513fed5f29181973e344f8a9c5da46"
 
+
+//微信分享
+#define kWeiXinAppSecret @"1d3ebc43fa058acb4e14b89d58618083"
+#define kWeiXinAppID @"wxa5ae3388f234252d"
+
+//微博分享
+#define kWeiBoAppKey @"584233421"
+#define kWeiBoAppSecret @"c38edd541be82eb853f7559bdb796c6d"
+#define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
+
 #endif /* JokeDefine_h */

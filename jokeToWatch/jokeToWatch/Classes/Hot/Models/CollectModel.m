@@ -53,7 +53,7 @@ static sqlite3 *dataBase = nil;
 }
 
 - (void)creatDataBaseTable{
-   NSString *sql = @"CREATE TABLE HotModel (number INTEGER PRIMARY KEY AUTOINCREMENT, headImage TEXT, title TEXT, time TEXT, plain TEXT, down TEXT, up TEXT, apprise TEXT)";
+   NSString *sql = @"CREATE TABLE HotModel (number INTEGER PRIMARY KEY AUTOINCREMENT, headImage TEXT, title TEXT, time TEXT, plain TEXT, down TEXT, up TEXT, apprise TEXT, imageID, TEXT)";
     char *err = nil;
     sqlite3_exec(dataBase, [sql UTF8String], NULL, NULL, &err);
     
@@ -74,7 +74,7 @@ static sqlite3 *dataBase = nil;
 - (void)insertTntoDataHot:(HotModel *)insertHotData{
     [self openDataBase];
     sqlite3_stmt *stmt = nil;
-    NSString *sql = @"INSERT INTO HotModel(headImage, title, time, plain, down, up, apprise) VALUES(?,?,?,?,?,?,?)";
+    NSString *sql = @"INSERT INTO HotModel(headImage, title, time, plain, down, up, apprise, imageID) VALUES(?,?,?,?,?,?,?,?)";
     //验证语句
     int result = sqlite3_prepare_v2(dataBase, [sql UTF8String], -1, &stmt, nil);
     if (result == SQLITE_OK) {
@@ -91,6 +91,10 @@ static sqlite3 *dataBase = nil;
          sqlite3_bind_text(stmt, 6, [up UTF8String], -1, NULL);
         NSString *apprise = [NSString stringWithFormat:@"%@", insertHotData.apprise];
          sqlite3_bind_text(stmt, 7, [apprise UTF8String], -1, NULL);
+//        NSString *jokeID = [NSString stringWithFormat:@"%@", insertHotData.jokeID];
+//        sqlite3_bind_text(stmt, 8, [jokeID UTF8String], -1, NULL);
+        NSString *imageID = [NSString stringWithFormat:@"%@", insertHotData.imageID];
+        sqlite3_bind_text(stmt, 8, [imageID UTF8String], -1, NULL);
         //执行
         sqlite3_step(stmt);
     }else{
@@ -102,16 +106,18 @@ static sqlite3 *dataBase = nil;
 }
 
 //查找
-- (NSMutableDictionary *)selectDataHot{
+- (NSMutableArray *)selectDataHot{
     [self openDataBase];
     sqlite3_stmt *stmt = nil;
     NSString *sql = @"SELECT * FROM HotModel";
     //验证语句
     int result = sqlite3_prepare_v2(dataBase, [sql UTF8String], -1, &stmt, nil);
-    NSMutableDictionary *selectDic = [NSMutableDictionary new];
+    NSMutableArray *collectArray = [NSMutableArray new];
     if (result == SQLITE_OK) {
         YWMLog(@"语句通过");
         while (sqlite3_step(stmt) == SQLITE_ROW) {
+            NSMutableDictionary *selectDic = [NSMutableDictionary new];
+
             NSString *headImage = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 1)];
             NSString *title = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 2)];
             NSString *time = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 3)];
@@ -119,16 +125,23 @@ static sqlite3 *dataBase = nil;
             NSString *down = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 5)];
             NSString *up = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 6)];
             NSString *apprise = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 7)];
+//            NSString *jokeID = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(stmt, 8)];
+            NSString *imageID = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(stmt, 8)];
             [selectDic setValue:headImage forKey:@"image"];
-            [selectDic setValue:title forKey:@"title"];
-            [selectDic setValue:time forKey:@"time"];
-            [selectDic setValue:plain forKey:@"plain"];
+            [selectDic setValue:title forKey:@"login"];
+            [selectDic setValue:time forKey:@"created_at"];
+            [selectDic setValue:plain forKey:@"content"];
             [selectDic setValue:down forKey:@"down"];
             [selectDic setValue:up forKey:@"up"];
-            [selectDic setValue:apprise forKey:@"apprise"];
+            [selectDic setValue:apprise forKey:@"allow_comment"];
+//            [selectDic setValue:jokeID forKey:@"id"];
+            [selectDic setValue:imageID forKey:@"imageID"];
+            
+            [collectArray addObject:selectDic];
         }
-    }sqlite3_finalize(stmt);
-    return selectDic;
+    }
+    sqlite3_finalize(stmt);
+    return collectArray;
 }
 
 @end
