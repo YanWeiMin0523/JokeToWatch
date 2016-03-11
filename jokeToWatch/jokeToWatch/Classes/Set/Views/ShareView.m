@@ -46,23 +46,23 @@
     
     //微博
     UIButton *weiboBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    weiboBtn.frame = CGRectMake(20, 20, 80, 80);
+    weiboBtn.frame = CGRectMake(10, 20, kWidth/4, kWidth/4);
     [weiboBtn setImage:[UIImage imageNamed:@"ic_focused"] forState:UIControlStateNormal];
     [weiboBtn addTarget:self action:@selector(goToShare:) forControlEvents:UIControlEventTouchUpInside];
     weiboBtn.tag = 1;
     [self.shareView addSubview:weiboBtn];
-    UILabel *weiboLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 100, 80, 30)];
+    UILabel *weiboLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, kWidth/4+20, kWidth/4, 30)];
     weiboLabel.text = @"微博好友";
     weiboLabel.textAlignment = NSTextAlignmentCenter;
     [self.shareView addSubview:weiboLabel];
     
     //微信
     UIButton *weixinBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    weixinBtn.frame = CGRectMake(140, 20, 80, 80);
+    weixinBtn.frame = CGRectMake(kWidth/3+10, 20, kWidth/4, kWidth/4);
     [weixinBtn setImage:[UIImage imageNamed:@"icon_pay_weixin"] forState:UIControlStateNormal];
     [weixinBtn addTarget:self action:@selector(goToShare:) forControlEvents:UIControlEventTouchUpInside];
     weixinBtn.tag = 2;
-    UILabel *weixinLabel = [[UILabel alloc] initWithFrame:CGRectMake(140, 100, 80, 30)];
+    UILabel *weixinLabel = [[UILabel alloc] initWithFrame:CGRectMake(kWidth/3+10, kWidth/4+20, kWidth/4, 30)];
     weixinLabel.textAlignment = NSTextAlignmentCenter;
     weixinLabel.text= @"微信好友";
     [self.shareView addSubview:weixinLabel];
@@ -70,11 +70,11 @@
     
     //朋友圈
     UIButton *friendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    friendBtn.frame = CGRectMake(260, 20, 80, 80);
+    friendBtn.frame = CGRectMake(kWidth*2/3+10, 20, kWidth/4, kWidth/4);
     [friendBtn setImage:[UIImage imageNamed:@"py_normal"] forState:UIControlStateNormal];
     friendBtn.tag = 3;
     [friendBtn addTarget:self action:@selector(goToShare:) forControlEvents:UIControlEventTouchUpInside];
-    UILabel *friendLabel = [[UILabel alloc] initWithFrame:CGRectMake(260, 100, 80, 30)];
+    UILabel *friendLabel = [[UILabel alloc] initWithFrame:CGRectMake(kWidth*2/3+10, kWidth/4+20, kWidth/4, 30)];
     friendLabel.text = @"朋友圈";
     friendLabel.textAlignment = NSTextAlignmentCenter;
     
@@ -83,7 +83,7 @@
     
     //取消
     UIButton *removeBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    removeBtn.frame = CGRectMake(20, 150, kWidth - 40, 30);
+    removeBtn.frame = CGRectMake(20, kWidth/2-20, kWidth - 40, 30);
     removeBtn.backgroundColor = [UIColor orangeColor];
     [removeBtn setTitle:@"取消" forState:UIControlStateNormal];
     [removeBtn addTarget:self action:@selector(removeView) forControlEvents:UIControlEventTouchUpInside];
@@ -164,7 +164,7 @@
 - (WBMessageObject *)messageToShare{
     WBMessageObject *message = [WBMessageObject message];
     //文字
-    message.text = NSLocalizedString(@"我的分享", nil);
+    message.text = NSLocalizedString(self.model.plain, nil);
     //图片
     WBImageObject *image = [WBImageObject object];
     image.imageData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"li" ofType:@"png"]];

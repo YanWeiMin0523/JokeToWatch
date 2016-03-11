@@ -80,7 +80,12 @@ static sqlite3 *dataBase = nil;
     if (result == SQLITE_OK) {
         //绑定
         sqlite3_bind_text(stmt, 1, [insertHotData.headImage UTF8String], -1, nil);
-         sqlite3_bind_text(stmt, 2, [insertHotData.title UTF8String], -1, nil);
+        if (insertHotData.title == nil) {
+            insertHotData.title = @"匿名用户";
+            sqlite3_bind_text(stmt, 2, [insertHotData.title UTF8String], -1, nil);
+        }else{
+        sqlite3_bind_text(stmt, 2, [insertHotData.title UTF8String], -1, nil);
+        }
         NSString *time = [NSString stringWithFormat:@"%@", insertHotData.time];
          sqlite3_bind_text(stmt, 3, [time UTF8String], -1, NULL);
          sqlite3_bind_text(stmt, 4, [insertHotData.plain UTF8String], -1, nil);
@@ -91,10 +96,9 @@ static sqlite3 *dataBase = nil;
          sqlite3_bind_text(stmt, 6, [up UTF8String], -1, NULL);
         NSString *apprise = [NSString stringWithFormat:@"%@", insertHotData.apprise];
          sqlite3_bind_text(stmt, 7, [apprise UTF8String], -1, NULL);
-//        NSString *jokeID = [NSString stringWithFormat:@"%@", insertHotData.jokeID];
-//        sqlite3_bind_text(stmt, 8, [jokeID UTF8String], -1, NULL);
         NSString *imageID = [NSString stringWithFormat:@"%@", insertHotData.imageID];
         sqlite3_bind_text(stmt, 8, [imageID UTF8String], -1, NULL);
+        
         //执行
         sqlite3_step(stmt);
     }else{
@@ -117,6 +121,8 @@ static sqlite3 *dataBase = nil;
         YWMLog(@"语句通过");
         while (sqlite3_step(stmt) == SQLITE_ROW) {
             NSMutableDictionary *selectDic = [NSMutableDictionary new];
+            NSMutableDictionary *userDic = [NSMutableDictionary new];
+            NSMutableDictionary *voteDic = [NSMutableDictionary new];
 
             NSString *headImage = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 1)];
             NSString *title = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 2)];
@@ -124,24 +130,44 @@ static sqlite3 *dataBase = nil;
             NSString *plain = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 4)];
             NSString *down = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 5)];
             NSString *up = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 6)];
-            NSString *apprise = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 7)];
-//            NSString *jokeID = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(stmt, 8)];
+            NSString *apprise = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 7)];
             NSString *imageID = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(stmt, 8)];
-            [selectDic setValue:headImage forKey:@"image"];
-            [selectDic setValue:title forKey:@"login"];
+            
+            [userDic setValue:headImage forKey:@"image"];
+            [userDic setValue:title forKey:@"login"];
+            [selectDic setValue:userDic forKey:@"user"];
+            
             [selectDic setValue:time forKey:@"created_at"];
             [selectDic setValue:plain forKey:@"content"];
-            [selectDic setValue:down forKey:@"down"];
-            [selectDic setValue:up forKey:@"up"];
+            [voteDic setValue:down forKey:@"down"];
+            [voteDic setValue:up forKey:@"up"];
+            [selectDic setValue:voteDic forKey:@"votes"];
+            
             [selectDic setValue:apprise forKey:@"allow_comment"];
-//            [selectDic setValue:jokeID forKey:@"id"];
-            [selectDic setValue:imageID forKey:@"imageID"];
+            [userDic setValue:imageID forKey:@"imageID"];
             
             [collectArray addObject:selectDic];
         }
     }
     sqlite3_finalize(stmt);
     return collectArray;
+}
+
+- (void)deleteData:(NSString *)plain{
+    [self openDataBase];
+    sqlite3_stmt *stmt = nil;
+    NSString *sql = @"DELETE FROM HotModel WHERE plain = ?";
+    //验证语句
+    int result = sqlite3_prepare_v2(dataBase, [sql UTF8String], -1, &stmt, nil);
+    if (result == SQLITE_OK) {
+        //绑定
+        sqlite3_bind_text(stmt, 1, [plain UTF8String], -1, nil);
+        sqlite3_step(stmt);
+    
+    }else{
+        YWMLog(@"删除语句有问题");
+    }
+    sqlite3_finalize(stmt);
 }
 
 @end

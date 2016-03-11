@@ -26,4 +26,6 @@
 //查
 - (NSMutableArray *)selectDataHot;
 
+- (void)deleteData:(NSString *)plain;
+
 @end

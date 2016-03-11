@@ -41,18 +41,20 @@
 }
 
 - (void)addControlToCell{
-    self.headImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 3, kWidth / 8, kWidth / 8)];
+    self.headImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, kWidth / 8, kWidth / 8)];
     self.headImage.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"defaultHeadImage"]];
     [self.contentView addSubview:self.headImage];
-    self.titleLable = [[UILabel alloc] initWithFrame:CGRectMake(kWidth / 8 + 15, 15, kWidth * 2 / 4, kWidth / 4 / 4)];
+    self.titleLable = [[UILabel alloc] initWithFrame:CGRectMake(kWidth / 8 + 10, 15, kWidth / 2, kWidth / 16)];
     [self.contentView addSubview:self.titleLable];
-    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kWidth * 6 / 8 - 20, 15, kWidth / 4 + 20, kWidth / 16)];
+    self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kWidth * 3 / 4 - 20, 15, kWidth / 4 + 20, kWidth / 16)];
     self.timeLabel.font = [UIFont systemFontOfSize:12.0];
+    
     [self.contentView addSubview:self.timeLabel];
     self.plainLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, kWidth / 8 + 10, kWidth - 20, kWidth / 4 )];
     self.plainLabel.numberOfLines = 0;
     self.plainLabel.font = [UIFont systemFontOfSize:17];
     [self.contentView addSubview:self.plainLabel];
+
     
     self.votesNBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.votesNBtn setImage:[UIImage imageNamed:@"icon_for_bad"] forState:UIControlStateNormal];
@@ -128,9 +130,9 @@
     frame.size.height = height;
     self.plainLabel.frame = frame;
     _lastLabelBottom = frame.size.height + kWidth / 8 + 20;
-    self.votesYBtn.frame = CGRectMake(10, _lastLabelBottom, 100, 30);
-    self.appraiseBtn.frame = CGRectMake(kWidth * 3 / 8 + 140, _lastLabelBottom, 80, 30);
-    self.votesNBtn.frame = CGRectMake(kWidth / 4 + 50, _lastLabelBottom, 100, 30);
+    self.votesYBtn.frame = CGRectMake(5, _lastLabelBottom, 100, 30);
+    self.appraiseBtn.frame = CGRectMake(kWidth * 3 / 8 + 115, _lastLabelBottom, 80, 30);
+    self.votesNBtn.frame = CGRectMake(kWidth / 4 + 40, _lastLabelBottom, 100, 30);
 
     [self.votesNBtn setTitle:[NSString stringWithFormat:@"%@", hotModel.votesN] forState:UIControlStateNormal];
     [self.votesYBtn setTitle:[NSString stringWithFormat:@"%@", hotModel.votesY] forState:UIControlStateNormal];

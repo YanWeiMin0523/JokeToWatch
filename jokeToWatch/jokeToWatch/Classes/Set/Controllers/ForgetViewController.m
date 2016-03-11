@@ -107,12 +107,6 @@
     if (![self chechMessggeSure]) {
         return;
     }
-    //验证验证码
-//    [BmobSMS verifySMSCodeInBackgroundWithPhoneNumber:self.phoneText.text andSMSCode:self.verifyCodeText.text resultBlock:^(BOOL isSuccessful, NSError *error) {
-//        if (isSuccessful) {
-//            YWMLog(@"验证成功");
-//        }YWMLog(@"%@", error);
-//            }];
     //验证码重置密码
     [BmobUser resetPasswordInbackgroundWithSMSCode:self.verifyCodeText.text andNewPassword:self.forgetPassText.text block:^(BOOL isSuccessful, NSError *error) {
         if (isSuccessful) {

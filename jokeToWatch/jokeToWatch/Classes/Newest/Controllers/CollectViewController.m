@@ -14,6 +14,7 @@
 
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) NSMutableArray *allCollectArray;
+@property(nonatomic, strong) HotModel *model;
 
 @end
 
@@ -30,16 +31,14 @@
     CollectModel *collectManger = [CollectModel collectManger];
     self.collectArray = [NSMutableArray new];
     self.collectArray = [collectManger selectDataHot];
-    
     for (NSDictionary *dic in self.collectArray) {
-        HotModel *model = [[HotModel alloc] initWithJokeDictionary:dic];
-        [self.allCollectArray addObject:model];
+        self.model = [[HotModel alloc] initWithJokeDictionary:dic];
+        [self.allCollectArray addObject:self.model];
         
     }
-
-    
    
 }
+
 
 
 #pragma mark ---------------- UITableViewDataSource
@@ -49,8 +48,6 @@
     if (!tableCell) {
         tableCell = [[HotTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cell];
     }
-   
-    
     tableCell.hotModel = self.allCollectArray[indexPath.row];
     tableCell.selectionStyle = UITableViewCellSelectionStyleNone;
     return tableCell;
@@ -65,19 +62,38 @@
     CGFloat cellHeight = [HotTableViewCell getCellHeightWith:model];
     return cellHeight + 5;
 }
+//cell的删除
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated{
+    [self.tableView setEditing:YES animated:animated];
+}
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return UITableViewCellEditingStyleDelete;
+    
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    HotModel *model = self.allCollectArray[indexPath.row];
+    CollectModel *manger = [CollectModel collectManger];
+    [manger deleteData:model.plain];
+    [self.allCollectArray removeObjectAtIndex:indexPath.row];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewAutomaticDimension];
+}
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.tabBarController.tabBar.hidden = NO;
 }
 
+
 #pragma mark ----------- lozyLoading
 - (UITableView *)tableView{
     if (!_tableView) {
-        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, kWidth, kHeight - 64) style:UITableViewStylePlain];
+        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 10, kWidth, kHeight) style:UITableViewStylePlain];
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
-        self.tableView.rowHeight = 140;
     }
     return _tableView;
 }

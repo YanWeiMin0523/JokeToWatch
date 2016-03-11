@@ -83,7 +83,7 @@
     self.headImage.clipsToBounds = YES;
     self.titleLable.text = classModel.title;
     NSString *timeStr = [NSString stringWithFormat:@"%@", classModel.time];
-    self.timeLabel.text = [timeStr substringToIndex:16];
+    self.timeLabel.text = [timeStr substringToIndex:13];
     self.plainLabel.text = classModel.plain;
     //自定义高度之后重新设定frame
     CGFloat textHeight = [TimeTools getTextHeightWithText:classModel.plain];
@@ -105,9 +105,9 @@
     [self.votesYBtn setTitle:[NSString stringWithFormat:@"%@", classModel.votesY] forState:UIControlStateNormal];
     [self.votesNBtn setTitle:[NSString stringWithFormat:@"%@", classModel.votesN] forState:UIControlStateNormal];
     
-    self.votesYBtn.frame = CGRectMake(10, _imageBottomHeight, 100, 30);
-    self.votesNBtn.frame = CGRectMake(kWidth / 4 + 50, _imageBottomHeight, 100, 30);
-    self.appraiseBtn.frame = CGRectMake(kWidth * 3 / 8 + 120, _imageBottomHeight, 80, 30);
+    self.votesYBtn.frame = CGRectMake(5, _imageBottomHeight, 100, 30);
+    self.votesNBtn.frame = CGRectMake(kWidth / 4 + 40, _imageBottomHeight, 100, 30);
+    self.appraiseBtn.frame = CGRectMake(kWidth * 3 / 8 + 115, _imageBottomHeight, 80, 30);
     self.lineLabel.frame = CGRectMake(0, _imageBottomHeight + 30, kWidth, 10);
     
 

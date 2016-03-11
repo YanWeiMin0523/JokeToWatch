@@ -205,11 +205,11 @@
 
 - (UILabel *)nameLabel{
     if (!_nameLabel) {
-        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(150, 60, kWidth-150, 30)];
+        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kWidth/2-10, kWidth/4-40, kWidth/2, 60)];
         self.nameLabel.numberOfLines = 0;
         self.nameLabel.text = @"爆笑看点,让你看到笑爆！";
         self.nameLabel.textColor = [UIColor whiteColor];
-        self.nameLabel.font = [UIFont systemFontOfSize:19.0];
+        self.nameLabel.numberOfLines = 0;
     }
     return _nameLabel;
 }

@@ -535,10 +535,10 @@
 			isa = PBXGroup;
 			children = (
 				7AA77A731C8DA6CC00436861 /* Bmob_SDK_iOS_v1.6.6 */,
-				7A59BC2A1C882F3C009CAD5B /* JokeWatch.pch */,
 				7A59BC571C8874FF009CAD5B /* TimeTools.h */,
-				7A4CFB5B1C91235C00FD5951 /* weixinSDK */,
 				7A59BC581C8874FF009CAD5B /* TimeTools.m */,
+				7A59BC2A1C882F3C009CAD5B /* JokeWatch.pch */,
+				7A4CFB5B1C91235C00FD5951 /* weixinSDK */,
 				7A4CFB601C91238B00FD5951 /* libWeiboSDK */,
 				7A59BC4E1C8840AE009CAD5B /* JokeDefine.h */,
 				7A2CA3461C89BC420010A9A7 /* UIView+UIViewExtension.m */,
@@ -880,6 +880,7 @@
 			baseConfigurationReference = A211AF072EA5911633726245 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/jokeToWatch/Classes/ToolRack/Bmob_SDK_iOS_v1.6.6",
@@ -907,6 +908,7 @@
 			baseConfigurationReference = E3367C4D8DEE554CEE379203 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/jokeToWatch/Classes/ToolRack/Bmob_SDK_iOS_v1.6.6",

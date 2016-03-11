@@ -23,6 +23,5 @@
 
 - (instancetype)initWithJokeDictionary:(NSDictionary *)dic;
 
-+ (instancetype)hotModelWithHeadImage:(NSString *)image title:(NSString *)title time:(NSString *)time plain:(NSString *)plain down:(NSString *)down up:(NSString *)up apprise:(NSString *)apprise;
 
 @end
