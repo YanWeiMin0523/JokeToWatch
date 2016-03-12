@@ -172,7 +172,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入手机号码" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="QwR-mK-EvJ">
-                                <rect key="frame" x="103" y="132" width="233" height="40"/>
+                                <rect key="frame" x="109" y="132" width="233" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="jyN-7Z-39U"/>
                                 </constraints>
@@ -180,7 +180,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入密码" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="sB9-k1-Ijz">
-                                <rect key="frame" x="103" y="190" width="233" height="40"/>
+                                <rect key="frame" x="109" y="190" width="233" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="88m-P0-COo"/>
                                 </constraints>
@@ -193,7 +193,7 @@
                                 </variation>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入确认密码" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="HGb-Z1-aWk">
-                                <rect key="frame" x="103" y="238" width="233" height="40"/>
+                                <rect key="frame" x="109" y="238" width="233" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="jpO-Ik-6Fj"/>
                                 </constraints>
@@ -231,20 +231,6 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="确认密码：" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Op-d2-9Hk">
-                                <rect key="frame" x="20" y="238" width="85" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="raa-OJ-Kcl"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="raa-OJ-Kcl"/>
-                                    </mask>
-                                </variation>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2w6-ak-9lg">
                                 <rect key="frame" x="91" y="351" width="175" height="60"/>
                                 <state key="normal" backgroundImage="btn_zhuce"/>
@@ -272,6 +258,20 @@
                                     </mask>
                                 </variation>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="确认密码：" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Op-d2-9Hk">
+                                <rect key="frame" x="20" y="238" width="85" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="raa-OJ-Kcl"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="raa-OJ-Kcl"/>
+                                    </mask>
+                                </variation>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -281,7 +281,7 @@
                             <constraint firstItem="2Op-d2-9Hk" firstAttribute="top" secondItem="PU3-fp-jYp" secondAttribute="bottom" constant="8" id="6N2-kz-0xS"/>
                             <constraint firstItem="QwR-mK-EvJ" firstAttribute="leading" secondItem="bj9-QD-6VT" secondAttribute="trailing" id="BG1-uD-UfW"/>
                             <constraint firstItem="sB9-k1-Ijz" firstAttribute="width" secondItem="QwR-mK-EvJ" secondAttribute="width" id="BRk-3X-KE2"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="QwR-mK-EvJ" secondAttribute="trailing" constant="40" id="Dy3-lk-ay6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="QwR-mK-EvJ" secondAttribute="trailing" constant="30" id="Dy3-lk-ay6"/>
                             <constraint firstItem="HGb-Z1-aWk" firstAttribute="top" secondItem="sB9-k1-Ijz" secondAttribute="bottom" constant="8" id="FOC-2L-tWA"/>
                             <constraint firstItem="sB9-k1-Ijz" firstAttribute="height" secondItem="QwR-mK-EvJ" secondAttribute="height" id="GTe-sv-IHF"/>
                             <constraint firstItem="PU3-fp-jYp" firstAttribute="top" secondItem="bj9-QD-6VT" secondAttribute="bottom" constant="20" id="HBe-c0-dt7"/>

@@ -88,13 +88,23 @@
 
 //验证码
 - (IBAction)verifyCode:(id)sender {
+    
     [BmobSMS requestSMSCodeInBackgroundWithPhoneNumber:self.phoneText.text andTemplate:@"验证码" resultBlock:^(int number, NSError *error) {
-        alertV = [[UIAlertView alloc] initWithTitle:@"验证码十分钟内有效" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
-        [alertV show];
-        NSTimer *timer;
-        timer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(doTimer) userInfo:nil repeats:YES];
+        
+        //判断手机号为空
+        if (self.phoneText.text.length <= 0 && [self.phoneText.text stringByReplacingOccurrencesOfString:@" " withString:@""].length <= 0) {
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"手机号不能为空" preferredStyle:UIAlertControllerStyleAlert];
+            [alertC addAction:self.alertCancel];
+            [alertC addAction:self.alertSure];
+            [self presentViewController:alertC animated:YES completion:nil];
+        }else{
+            alertV = [[UIAlertView alloc] initWithTitle:@"验证码十分钟内有效" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+            [alertV show];
+            NSTimer *timer;
+            timer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(doTimer) userInfo:nil repeats:YES];
+        }
     }];
-   
+    
     
 }
 

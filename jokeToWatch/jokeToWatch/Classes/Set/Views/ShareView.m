@@ -34,13 +34,13 @@
 - (void)configShareView{
     UIWindow *window = [[UIApplication sharedApplication].delegate window];
     //视图黑背景
-    self.blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, kHeight - 200)];
+    self.blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, kHeight - kWidth/2)];
     self.blackView.backgroundColor = [UIColor blackColor];
     self.blackView.alpha = 0.0;
     [window addSubview:self.blackView];
     
     //弹出
-    self.shareView = [[UIView alloc] initWithFrame:CGRectMake(0, kHeight - 250, kWidth, 200)];
+    self.shareView = [[UIView alloc] initWithFrame:CGRectMake(0, kHeight - kWidth*2/3, kWidth, kWidth/2)];
     self.shareView.backgroundColor = [UIColor whiteColor];
     [window addSubview:self.shareView];
     
@@ -83,7 +83,7 @@
     
     //取消
     UIButton *removeBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    removeBtn.frame = CGRectMake(20, kWidth/2-20, kWidth - 40, 30);
+    removeBtn.frame = CGRectMake(20, kWidth*3/8+10, kWidth - 40, 30);
     removeBtn.backgroundColor = [UIColor orangeColor];
     [removeBtn setTitle:@"取消" forState:UIControlStateNormal];
     [removeBtn addTarget:self action:@selector(removeView) forControlEvents:UIControlEventTouchUpInside];
