@@ -36,7 +36,6 @@
     [BmobUser loginWithUsernameInBackground:self.userText.text password:self.passText.text block:^(BmobUser *user, NSError *error) {
         if (user) {
             [ProgressHUD showSuccess:@"登录成功"];
-            [self dismissViewControllerAnimated:YES completion:nil];
             //返回上一页
             [self.navigationController popToRootViewControllerAnimated:YES];
         }else{
@@ -68,11 +67,6 @@
     }else{
     self.passText.secureTextEntry = YES;
     }
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    self.tabBarController.tabBar.hidden = NO;
 }
 
 

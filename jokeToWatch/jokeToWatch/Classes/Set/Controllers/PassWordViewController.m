@@ -48,10 +48,10 @@
        [bmobUser signUpInBackgroundWithBlock:^(BOOL isSuccessful, NSError *error) {
         if (isSuccessful) {
             [ProgressHUD showSuccess:@"恭喜你，注册成功"];
-            YWMLog(@"注册成功");
+//            YWMLog(@"注册成功");
         }else{
             [ProgressHUD showError:@"很遗憾，你注册失败了/(ㄒoㄒ)/~~"];
-            YWMLog(@"%@", error);
+//            YWMLog(@"%@", error);
         }
     }];
     
@@ -119,6 +119,14 @@
         [alertC addAction:self.alertSure];
         [self presentViewController:alertC animated:YES completion:nil];
         return NO;
+    }
+    if (self.passText.text.length < 6) {
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"密码长度至少六位" preferredStyle:UIAlertControllerStyleAlert];
+        [alertC addAction:self.alertCancel];
+        [alertC addAction:self.alertSure];
+        [self presentViewController:alertC animated:YES completion:nil];
+        return NO;
+
     }
     
     return YES;

@@ -35,6 +35,7 @@
     //头部
     [self headImageView];
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    [self loginBtn];
     
 }
 
@@ -57,13 +58,14 @@
 //计算图片缓存
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = NO;
+    [self.levelV removeFromSuperview];
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
     NSInteger cacheSize = [imageCache getSize];
     NSString *cacheStr = [NSString stringWithFormat:@"清除图片缓存(%.02fM)", (float)cacheSize/1024/1024];
     [self.titleArray replaceObjectAtIndex:0 withObject:cacheStr];
     NSIndexPath *dePath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView reloadRowsAtIndexPaths:@[dePath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
     
 }
 
@@ -113,10 +115,12 @@
             break;
     }
     
-    
+   
 }
 
 - (void)clearImage{
+    [self removeView];
+
     [ProgressHUD showSuccess:@"已为你清场"];
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
     [imageCache clearDisk];
@@ -126,27 +130,29 @@
     [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 - (void)checkVersions{
+     [self removeView];
     [ProgressHUD showSuccess:@"已是当前最新版本"];
 }
 //评分
 - (void)gradeToApp{
     self.tabBarController.tabBar.hidden = YES;
     //初始化一个视图作画布
-    self.levelV = [[UIView alloc] initWithFrame:CGRectMake(0, kHeight - 300, kWidth, 250)];
+    self.levelV = [[UIView alloc] initWithFrame:CGRectMake(0, kHeight - kWidth*2/3, kWidth, kWidth/2)];
     self.levelV.backgroundColor = [UIColor whiteColor];
     self.levelV.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    self.levelV.layer.borderWidth = 0.5;
+    self.levelV.layer.borderWidth = 1.0;
     [self.view addSubview:self.levelV];
     
     UIButton *removeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    removeBtn.frame = CGRectMake(50, 150, kWidth-100, 30);
+    removeBtn.frame = CGRectMake(20, kWidth*3/8-30, kWidth-40, 30);
+
     removeBtn.backgroundColor = [UIColor redColor];
     [removeBtn setTitle:@"确定评分" forState:UIControlStateNormal];
     [removeBtn addTarget:self action:@selector(removeView) forControlEvents:UIControlEventTouchUpInside];
     [self.levelV addSubview:removeBtn];
     
     LPLevelView *lView = [LPLevelView new];
-    lView.frame = CGRectMake(120, 80, 150, 44 );
+    lView.frame = CGRectMake(kWidth/3, 20, kWidth/4+10, 44 );
     lView.iconColor = [UIColor orangeColor];
     lView.iconSize = CGSizeMake(20, 20);
     lView.canScore = YES;
@@ -166,6 +172,8 @@
 }
 //我的收藏
 - (void)pushCollectVC{
+    [self.levelV removeFromSuperview];
+
     CollectViewController *collectVC = [[CollectViewController alloc] init];
     CollectModel *collectManger = [CollectModel collectManger];
     [collectManger openDataBase];
@@ -197,6 +205,7 @@
         self.loginBtn.frame = CGRectMake(20, 20, 120, 120);
         self.loginBtn.layer.cornerRadius = 60;
         self.loginBtn.clipsToBounds = YES;
+        
         [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"login"] forState:UIControlStateNormal];
         [self.loginBtn addTarget:self action:@selector(goToLogin) forControlEvents:UIControlEventTouchUpInside];
     }

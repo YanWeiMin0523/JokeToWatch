@@ -140,6 +140,7 @@
             req.scene = WXSceneSession;
             req.bText = YES;
             [WXApi sendReq:req];
+            [self removeView];
         }
             break;
             case 3:
@@ -149,7 +150,10 @@
             friendReq.text = self.model.plain;
             friendReq.scene = WXSceneTimeline;
             friendReq.bText = YES;
+            
             [WXApi sendReq:friendReq];
+            [self removeView];
+
         }
             
         default:

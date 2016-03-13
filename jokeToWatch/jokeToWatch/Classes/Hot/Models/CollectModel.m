@@ -35,7 +35,7 @@ static sqlite3 *dataBase = nil;
     
     //创建数据库路径
     dataBasePath = [document stringByAppendingPathComponent:@"/mango.sqlite"];
-    YWMLog(@"%@", dataBasePath);
+//    YWMLog(@"%@", dataBasePath);
     
 }
 
@@ -48,7 +48,7 @@ static sqlite3 *dataBase = nil;
     if (result == SQLITE_OK) {
         [self creatDataBaseTable];
     }else{
-        YWMLog(@"数据库打开失败");
+//        YWMLog(@"数据库打开失败");
     }
 }
 
@@ -66,7 +66,7 @@ static sqlite3 *dataBase = nil;
     if (result == SQLITE_OK) {
         dataBase = nil;
     }else{
-        YWMLog(@"数据库关闭失败");
+//        YWMLog(@"数据库关闭失败");
     }
 }
 
@@ -102,7 +102,7 @@ static sqlite3 *dataBase = nil;
         //执行
         sqlite3_step(stmt);
     }else{
-        YWMLog(@"SQL语句有问题");
+//        YWMLog(@"SQL语句有问题");
     }
     //删除释放
     sqlite3_finalize(stmt);
@@ -118,7 +118,7 @@ static sqlite3 *dataBase = nil;
     int result = sqlite3_prepare_v2(dataBase, [sql UTF8String], -1, &stmt, nil);
     NSMutableArray *collectArray = [NSMutableArray new];
     if (result == SQLITE_OK) {
-        YWMLog(@"语句通过");
+//        YWMLog(@"语句通过");
         while (sqlite3_step(stmt) == SQLITE_ROW) {
             NSMutableDictionary *selectDic = [NSMutableDictionary new];
             NSMutableDictionary *userDic = [NSMutableDictionary new];
@@ -165,7 +165,7 @@ static sqlite3 *dataBase = nil;
         sqlite3_step(stmt);
     
     }else{
-        YWMLog(@"删除语句有问题");
+//        YWMLog(@"删除语句有问题");
     }
     sqlite3_finalize(stmt);
 }

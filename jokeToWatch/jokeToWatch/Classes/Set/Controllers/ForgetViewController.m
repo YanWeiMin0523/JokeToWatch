@@ -121,10 +121,10 @@
     [BmobUser resetPasswordInbackgroundWithSMSCode:self.verifyCodeText.text andNewPassword:self.forgetPassText.text block:^(BOOL isSuccessful, NSError *error) {
         if (isSuccessful) {
             [ProgressHUD showSuccess:@"重置密码成功"];
-            YWMLog(@"修改成功");
+//            YWMLog(@"修改成功");
         }else{
         [ProgressHUD showError:@"很遗憾，密码修改失败"];
-        YWMLog(@"%@", error);
+//        YWMLog(@"%@", error);
         }
     }];
 

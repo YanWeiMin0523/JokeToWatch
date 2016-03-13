@@ -46,7 +46,7 @@
     AFHTTPSessionManager *httpManager = [AFHTTPSessionManager manager];
     httpManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
     [ProgressHUD show:@"正在加载"];
-    [httpManager GET:[NSString stringWithFormat:@"%@&page=%ld", kNewestPort, _pageCount] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+    [httpManager GET:[NSString stringWithFormat:@"%@&page=%ld", kNewestPort, (long)_pageCount] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         [ProgressHUD showSuccess:@"加载成功"];
@@ -73,7 +73,7 @@
         self.tableView.reachedTheEnd = NO;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [ProgressHUD showError:@"加载失败"];
-        YWMLog(@"%@", error);
+//        YWMLog(@"%@", error);
     }];
     
     

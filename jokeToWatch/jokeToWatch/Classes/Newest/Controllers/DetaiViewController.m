@@ -110,7 +110,7 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 5, kWidth, 30)];
     UILabel *numLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, kWidth - 10, 30)];
     if (section == 1) {
-        numLabel.text = [NSString stringWithFormat:@"%lu条评论", self.commentArray.count];
+        numLabel.text = [NSString stringWithFormat:@"%lu条评论", (unsigned long)self.commentArray.count];
         view.backgroundColor = [UIColor grayColor];
         view.alpha = 0.3;
         [view addSubview:numLabel];
@@ -140,6 +140,11 @@
     [super viewWillDisappear:YES];
     self.tabBarController.tabBar.hidden = NO;
     [ProgressHUD dismiss];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = YES;
 }
 
 #pragma mark ------------- CustomMethod
@@ -177,7 +182,7 @@
         [self.tableView reloadData];
         self.tableView.reachedTheEnd = NO;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        YWMLog(@"%@", error);
+//        YWMLog(@"%@", error);
     }];
 }
 
