@@ -13,6 +13,7 @@
 #import "LPLevelView.h"
 #import "CollectViewController.h"
 #import "CollectModel.h"
+#import <BmobSDK/Bmob.h>
 @interface SetViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) NSMutableArray *titleArray;
@@ -31,7 +32,7 @@
     [self.view addSubview:self.tableView];
     
     //cell
-    self.titleArray = [NSMutableArray arrayWithObjects:@"清理图片缓存", @"当前版本",@"评分", @"我的收藏",nil];
+    self.titleArray = [NSMutableArray arrayWithObjects:@"清理图片缓存", @"评分", @"我的收藏",@"退出登录", nil];
     //头部
     [self headImageView];
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -92,25 +93,19 @@
         case 0:
             [self clearImage];
             break;
-            
         case 1:
-        {
-            [ProgressHUD show:@"正在为你检测"];
-            [self performSelector:@selector(checkVersions) withObject:nil afterDelay:1.0];
-            
-        }
-            break;
-        case 2:
             
             [self gradeToApp];
             
             break;
-        case 3:
+        case 2:
             //推出收藏界面
             [self pushCollectVC];
             
             break;
-            
+            case 3:
+            [self loginOut];
+            break;
         default:
             break;
     }
@@ -129,10 +124,7 @@
     NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
-- (void)checkVersions{
-     [self removeView];
-    [ProgressHUD showSuccess:@"已是当前最新版本"];
-}
+
 //评分
 - (void)gradeToApp{
     self.tabBarController.tabBar.hidden = YES;
@@ -175,14 +167,29 @@
     [self.levelV removeFromSuperview];
 
     CollectViewController *collectVC = [[CollectViewController alloc] init];
-    CollectModel *collectManger = [CollectModel collectManger];
-    [collectManger openDataBase];
-    NSMutableArray *collectDic = [collectManger selectDataHot];
-    collectVC.collectArray = collectDic;
     [self.navigationController pushViewController:collectVC animated:YES];
     
 }
-
+- (void)loginOut{
+    BmobUser *user = [BmobUser getCurrentUser];
+    if (user.objectId == nil) {
+        
+    }else{
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"退出当前登录？" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cencel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [BmobUser logout];
+            
+            
+        }];
+        [alertC addAction:cencel];
+        [alertC addAction:sure];
+        [self presentViewController:alertC animated:YES completion:nil];
+    }
+    
+}
 -(void)removeView{
     [self.levelV removeFromSuperview];
     self.tabBarController.tabBar.hidden = NO;

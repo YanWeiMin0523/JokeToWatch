@@ -17,6 +17,8 @@
 #import "ProgressHUD.h"
 #import "CollectModel.h"
 #import "ShareView.h"
+#import <BmobSDK/Bmob.h>
+#import "LoginViewController.h"
 @interface DetaiViewController ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, PullingRefreshTableViewDelegate>
 {
     NSInteger _pageCount;
@@ -27,6 +29,7 @@
 @property(nonatomic, strong) NSMutableArray *commentArray;
 @property(nonatomic, strong) UIButton *publishBtn;
 @property(nonatomic, assign) BOOL refreshing;
+@property(nonatomic, strong) UIButton *button;
 
 @end
 
@@ -43,13 +46,31 @@
     self.title = @"爆笑详情";
     [self.view addSubview:self.tableView];
       //收藏
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(kWidth - 40, 0, 30, 30);
-    [button setBackgroundImage:[UIImage imageNamed:@"icon_post_enable"] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(pulblishThink) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.button = [UIButton buttonWithType:UIButtonTypeCustom];
+    _button.frame = CGRectMake(kWidth - 40, 0, 30, 30);
+    CollectModel *mangerM = [CollectModel collectManger];
+    NSMutableArray *array  = [mangerM selectDataHot];
+    if (array.count == 0) {
+        [self.button setImage:[UIImage imageNamed:@"pc_menu_03"] forState:UIControlStateNormal];
+        self.button.tag = 11;
+    }else{
+        for (NSDictionary *dic in array) {
+            NSString *content = dic[@"content"];
+            if ([content isEqualToString:self.detailModel.plain]) {
+                [self.button setImage:[UIImage imageNamed:@"pc_menu_collect_normal_ic"] forState:UIControlStateNormal];
+                self.button.tag = 10;
+            }else{
+                 [_button setBackgroundImage:[UIImage imageNamed:@"ipc_menu_03"] forState:UIControlStateNormal];
+                self.button.tag = 11;
+            }
+            
+        }
+    }
+   
+    [_button addTarget:self action:@selector(pulblishThink:) forControlEvents:UIControlEventTouchUpInside];
+    [_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     //分享
-    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:button];
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc] initWithCustomView:_button];
     
     UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [shareBtn setBackgroundImage:[UIImage imageNamed:@"icon_share"] forState:UIControlStateNormal];
@@ -209,7 +230,6 @@
     return [TimeTools getNowDate];
 }
 
-
 #pragma mark ------------ LazyLoading
 - (PullingRefreshTableView *)tableView{
     if (!_tableView) {
@@ -227,10 +247,41 @@
     return _commentArray;
 }
 
-- (void)pulblishThink{
+- (void)pulblishThink:(UIButton *)btn{
+    
     CollectModel *dataManger = [CollectModel collectManger];
-    [dataManger insertTntoDataHot:self.detailModel];
-    [ProgressHUD showSuccess:@"收藏成功"];
+    
+    if (btn.tag == 10) {
+        [dataManger deleteData:self.detailModel.plain];
+        [self.button setImage:[UIImage imageNamed:@"pc_menu_03"] forState:UIControlStateNormal];
+        self.button.tag = 11;
+        [ProgressHUD showSuccess:@"取消收藏"];
+    }else if (btn.tag == 11){
+        BmobUser *user = [BmobUser getCurrentUser];
+        if (user.objectId == nil) {
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"😊，你还没有登陆哦!" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cencel = [UIAlertAction actionWithTitle:@"不了/(ㄒoㄒ)/~~" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            UIAlertAction *sure = [UIAlertAction actionWithTitle:@"我要登陆:-D" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                UIStoryboard *story = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+                LoginViewController *loginVC = [story instantiateViewControllerWithIdentifier:@"LoginID"];
+                [self.navigationController pushViewController:loginVC animated:YES];
+                
+            }];
+            [alertC addAction:cencel];
+            [alertC addAction:sure];
+            [self presentViewController:alertC animated:YES completion:nil];
+        }else{
+            [self.button setImage:[UIImage imageNamed:@"pc_menu_collect_normal_ic"] forState:UIControlStateNormal];
+            self.button.tag = 10;
+            [dataManger insertTntoDataHot:self.detailModel];
+            [ProgressHUD showSuccess:@"收藏成功"];
+
+        }
+        
+    }
+    
 }
 
 - (void)goToShare{
@@ -238,16 +289,6 @@
     shareView.model = self.detailModel;
     [self.view addSubview:shareView];
     
-}
-
-//回收键盘
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [self.view endEditing:YES];
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    [textField resignFirstResponder];
-    return YES;
 }
 
 - (void)didReceiveMemoryWarning {
